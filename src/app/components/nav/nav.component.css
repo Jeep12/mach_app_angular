@@ -1,0 +1,18 @@
+.navbar {
+    background-color: white;
+}
+
+.btn {
+    margin-left: 10px;
+    color: var(--color-text-white);
+    font-weight: 760;
+
+
+}
+.btn:hover {
+    color: white;
+
+}
+.btn-dropdown {
+    margin-right: 70px;
+}

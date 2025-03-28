@@ -1,0 +1,11 @@
+* {
+    padding: 0px;
+    margin: 0px;
+}
+
+:root {
+    --color-text-white: #e2e2e2; /* Color primario */
+}
+body {
+    background-color: #F4F4F4;
+}

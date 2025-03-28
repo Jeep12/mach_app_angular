@@ -1,0 +1,147 @@
+/* Estilos generales */
+.container-form {
+  display: flex;
+}
+
+.login-form {
+  background-color: #ffffff;
+  padding: 40px;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  width: 400px;
+  margin: 0 auto;
+  margin-top: 100px; /* Ajusta el valor negativo para acercarlo más al navbar */
+}
+
+.login-form h2 {
+  margin-bottom: 20px;
+  color: #333;
+  font-size: 24px;
+  text-align: center;
+}
+
+.form-group {
+  margin-bottom: 20px;
+  position: relative;
+}
+
+.form-group-password {
+  margin-top: 30px !important;
+}
+
+.input-container {
+  position: relative;
+  margin-top: 10px; /* Espacio para el label */
+}
+
+.input-container input {
+  width: 100%;
+  padding: 10px 10px 10px 10px; /* Ajusta el padding para alinear el texto y el label */
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 16px;
+  background: transparent;
+}
+
+.input-container input:focus {
+  border-color: #009639;
+  outline: none;
+
+}
+
+.input-container label {
+  position: absolute;
+  top: 50%; /* Centrado verticalmente */
+  left: 10px;
+  transform: translateY(-50%); /* Ajusta el label a la mitad del campo de entrada */
+  font-size: 16px;
+  color: #aaa;
+  transition: 0.3s ease all;
+  pointer-events: none;
+}
+
+.input-container input:focus ~ label,
+.input-container input:not(:placeholder-shown) ~ label {
+  top: -13px; /* Mueve el label hacia arriba cuando el campo es seleccionado o contiene texto */
+  font-size: 15px;
+  color: #009639;
+}
+
+/* Botón del ojo para mostrar/ocultar contraseña */
+.input-container button.btn-eye {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  margin-top: 3px;
+}
+
+.input-container button.btn-eye i {
+  font-size: 20px;
+}
+/* Inicialmente el botón de ojo será gris */
+.input-container button.btn-eye {
+  color: #ccc; /* Gris */
+}
+
+/* Cuando el campo de contraseña tiene el foco, el botón de ojo cambia a verde */
+.input-container input:focus ~ button.btn-eye {
+  color: #009639; /* Verde */
+}
+
+
+/* Mensajes de error */
+.error-message {
+  color: #dc3545; /* Rojo para errores */
+  font-size: 14px;
+  margin-top: 5px;
+}
+
+/* Botón */
+.btn {
+  background-color: #009639;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  font-size: 16px;
+  font-weight: 760;
+  cursor: pointer;
+  width: 100%;
+}
+
+.btn:hover {
+  background-color: #006426;
+}
+
+
+.btn[disabled] {
+  cursor: not-allowed;
+  opacity: 0.5;
+  background-color: rgb(131, 131, 131); /* Opcional: puedes agregar opacidad para indicar que el botón está deshabilitado */
+}
+
+
+.btn-submit {
+  text-transform: uppercase;
+}
+
+.forgot-password{ 
+  margin-top: 10px;
+}
+
+.google-login {
+  margin-top: 15px;
+}
+
+.btn-google {
+  width: 100%;
+  padding: 5px 20px;
+  border: none;
+  background-color: #DB4437;
+  color: white;
+  border-radius: 5px;
+}

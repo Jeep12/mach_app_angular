@@ -1,0 +1,42 @@
+<nav class="navbar navbar-expand-lg">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#"><img width="150" height="100" src="assets/images/logo2.png" alt="" srcset=""></a>
+
+
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
+      aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+      <div class="navbar-nav me-auto">
+        <a class="nav-link active" aria-current="page" href="#">Inicio</a>
+        <a class="nav-link" href="#">Productos</a>
+        <a class="nav-link" href="#">Sobre Nosotros</a>
+        <a class="nav-link" href="#">Contactanos</a>
+      </div>
+
+      <!-- Si el usuario no está autenticado -->
+      <div class="d-flex auth-buttons" *ngIf="!isAuthenticated()">
+        <button class="btn bg-success" [routerLink]="'/register'">Registrarse</button>
+        <button class="btn bg-success" [routerLink]="'/login'">Ingresar</button>
+      </div>
+
+      <!-- Si el usuario está autenticado -->
+      <div class="d-flex auth-buttons" *ngIf="isAuthenticated()">
+        <!-- Dropdown para Admin -->
+        <div class="dropdown">
+          <button class="btn btn-dropdown dropdown-toggle" type="button" id="dropdownMenuButton"
+            data-bs-toggle="dropdown" aria-expanded="false">
+            Mi cuenta
+          </button>
+          <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+            <li *ngIf="isAdmin()"><a class="dropdown-item" [routerLink]="'/admin-dashboard'">Admin Dashboard</a></li>
+            <li><a class="dropdown-item" (click)="logout()">Cerrar sesión</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</nav>
+

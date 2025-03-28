@@ -1,0 +1,71 @@
+<div class="container-form">
+  <div class="login-form">
+    <h2><i class="fa-solid fa-user"></i> INGRESAR</h2>
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+      <!-- Campo Email -->
+      <br>
+      <div class="form-group">
+        <div class="input-container">
+          <input type="email" id="email" formControlName="email" placeholder=" " />
+          <label for="email"><i class="fa-solid fa-envelope"></i> Email</label>
+        </div>
+        <!-- Mensajes de error para el email -->
+        <div *ngIf="loginForm.get('email')?.invalid && loginForm.get('email')?.touched" class="error-message">
+          <div *ngIf="loginForm.get('email')?.errors?.['required']">
+            <div class="alert alert-danger" role="alert"><i class="fa-solid fa-circle-exclamation"></i> El email es obligatorio.</div>
+          </div>
+          <div *ngIf="loginForm.get('email')?.errors?.['email']">
+            <div class="alert alert-danger" role="alert"><i class="fa-solid fa-circle-exclamation"></i> Ingresa un email válido.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Campo Contraseña -->
+      <div class="form-group form-group-password">
+        <div class="input-container">
+          <input 
+            [type]="passwordVisible ? 'text' : 'password'" 
+            id="password" 
+            formControlName="password" 
+            placeholder=" " />
+          <label for="password"><i class="fa-solid fa-lock"></i> Contraseña</label>
+          <!-- Botón para mostrar/ocultar contraseña -->
+          <button type="button" class="btn-eye" (click)="togglePasswordVisibility()">
+            <!-- Mostrar u ocultar el icono dependiendo de la variable passwordVisible -->
+            <i class="fa-solid" [ngClass]="passwordVisible ? 'fa-eye-slash' : 'fa-eye'"></i>
+          </button>
+        </div>
+        <!-- Mensajes de error para la contraseña -->
+        <div *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.touched" class="error-message">
+          <div *ngIf="loginForm.get('password')?.errors?.['required']">
+            <div class="alert alert-danger" role="alert"><i class="fa-solid fa-circle-exclamation"></i> La contraseña es obligatoria.</div>
+          </div>
+          <div *ngIf="loginForm.get('password')?.errors?.['minlength']">
+            <div class="alert alert-danger" role="alert"><i class="fa-solid fa-circle-exclamation"></i> La contraseña debe tener al menos 6 caracteres.</div>
+          </div>
+        </div>
+      </div>
+
+      <div *ngIf="message">
+        <div class="alert alert-danger" style="font-size: 14px;" role="alert">
+          <i class="fa-solid fa-circle-exclamation"></i> {{ message }}
+        </div>
+      </div>
+
+      <!-- Botón de Enviar -->
+      <button type="submit" class="btn btn-submit" [disabled]="loginForm.invalid"><i class="fa-solid fa-right-to-bracket"></i> &nbsp;Ingresar</button>
+
+      <div class="forgot-password">
+        <a [routerLink]="'/forgot-password'" class="forgot-password-link">¿Olvidaste tu contraseña?</a>
+      </div>
+
+      <!-- Botón Ingresar con Google -->
+      <div class="google-login">
+        <button type="button" class="btn-google">
+          <i class="fa-brands fa-google"></i>&nbsp; Ingresar con Google
+        </button>
+      </div>
+
+    </form>
+  </div>
+</div>

@@ -1,0 +1,131 @@
+<div class="container-form">
+  <div class="login-form">
+    <h2><i class="fa-solid fa-users"></i> REGISTRARSE</h2>
+    <br>
+    <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+
+      <div class="form-group name-lastname">
+        <!-- Nombre -->
+        <div class="input-container">
+          <input type="text" formControlName="firstName" id="firstName" placeholder=" " />
+          <label for="firstName"><i class="fa-solid fa-user"></i> Nombre</label>
+        </div>
+        <!-- Apellido -->
+        <div class="input-container">
+          <input type="text" formControlName="lastName" id="lastName" placeholder=" " />
+          <label for="lastName"><i class="fa-solid fa-user"></i> Apellido</label>
+        </div>
+      </div>
+
+      <!-- Email -->
+      <div class="form-group">
+        <div class="input-container">
+          <input type="email" formControlName="email" id="email" placeholder=" "  (focusout)="onEmailBlur()" />
+          <label for="email"><i class="fa-solid fa-envelope"></i> Email </label>
+        </div>
+      </div>
+
+      <!-- Contraseña -->
+      <div class="form-group">
+        <div class="input-container">
+          <input type="password" formControlName="password" id="password" placeholder=" " (input)="onPasswordChange()"
+            [type]="passwordVisible ? 'text' : 'password'" />
+          <label for="password"><i class="fa-solid fa-lock"></i> Contraseña</label>
+          <button type="button" class="btn-eye" (click)="togglePasswordVisibility()">
+            <!-- Mostrar u ocultar el icono dependiendo de la variable passwordVisible -->
+            <i class="fa-solid" [ngClass]="passwordVisible ? 'fa-eye-slash' : 'fa-eye'"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- Repetir contraseña -->
+      <div class="form-group">
+        <div class="input-container">
+          <input type="password" formControlName="confirmPassword" id="confirmPassword" placeholder=" "
+            [type]="repeatPasswordVisible ? 'text' : 'password'" />
+          <label for="confirmPassword"><i class="fa-solid fa-lock"></i> Repetir contraseña</label>
+
+          <button type="button" class="btn-eye" (click)="toggleRepeatPasswordVisibility()">
+            <!-- Mostrar u ocultar el icono dependiendo de la variable passwordVisible -->
+            <i class="fa-solid" [ngClass]="repeatPasswordVisible ? 'fa-eye-slash' : 'fa-eye'"></i>
+          </button>
+        </div>
+      </div>
+      <!-- Mostrar errores -->
+      <div *ngIf="errors.length > 0" class="alert alert-danger" role="alert">
+        <ul>
+          <li *ngFor="let error of errors"><i class="fa-solid fa-circle-exclamation"></i> {{ error }}</li>
+        </ul>
+      </div>
+
+
+
+      <div class="password-info" [ngClass]="{'valid': isPasswordValid(), 'invalid': !isPasswordValid()}">
+        <div [class.valid]="passwordValidations.length" [class.invalid]="!passwordValidations.length">
+          <i class="fa-solid fa-square-check iconLength"></i> Al menos 8 caracteres
+        </div>
+        <div [class.valid]="passwordValidations.uppercase" [class.invalid]="!passwordValidations.uppercase">
+          <i class="fa-solid fa-square-check iconUppercase"></i> Al menos una mayúscula
+        </div>
+        <div [class.valid]="passwordValidations.specialChar" [class.invalid]="!passwordValidations.specialChar">
+          <i class="fa-solid fa-square-check iconSpecialChar"></i> Al menos un carácter especial
+        </div>
+        <div [class.valid]="passwordValidations.number" [class.invalid]="!passwordValidations.number">
+          <i class="fa-solid fa-square-check iconNumber"></i> Al menos un número
+        </div>
+
+        <!-- Aquí es donde validamos que las contraseñas coincidan -->
+        <div [class.valid]="passwordValidations.match" [class.invalid]="!passwordValidations.match">
+          <i class="fa-solid fa-square-check iconMatch"></i> Las contraseñas coinciden
+        </div>
+      </div>
+
+
+
+      <br>
+      <div style="display: flex;justify-content: center;margin-bottom: 10px;">
+        <re-captcha [siteKey]="siteKey"
+          (resolved)="executeRecaptchaVisible($event)"></re-captcha>
+      </div>
+      <!-- Botón de registro con loading -->
+      <div *ngIf="loading; else showButton" class="d-flex justify-content-center">
+        <div class="spinner-border text-success" role="status">
+          <span class="visually-hidden">Loading...</span>
+        </div>
+      </div>
+
+      <ng-template #showButton>
+        <button type="submit" class="btn btn-submit" [disabled]="!registerForm.valid">
+          <i class="fa-solid fa-right-to-bracket"></i> &nbsp;Registrarse
+        </button>
+      </ng-template>
+    </form>
+  </div>
+</div>
+
+<div class="modal flex" id="successModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <!-- Encabezado -->
+      <div class="modal-header bg-success text-white text-center">
+        <h5 class="modal-title w-100">
+          <i class="fa-solid fa-check-circle"></i> ¡Registro exitoso!
+        </h5>
+      </div>
+
+      <!-- Cuerpo -->
+      <div class="modal-body text-center">
+        <p>Hemos enviado un correo de verificación a:</p>
+        <h6 class="text-primary"><strong>{{ userEmail }}</strong></h6>
+        <p class="text-danger fw-bold">⚠️ Este enlace caduca en 15 minutos.</p>
+      </div>
+
+      <!-- Pie con botón -->
+      <div class="modal-footer d-flex justify-content-center">
+        <button type="button" [routerLink]="'http://localhost:4200/login'" class="btn text-white bg-success" data-bs-dismiss="modal" >
+          Entendido
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
