@@ -12,6 +12,7 @@ import { NgModule } from '@angular/core';
 import { noAuthGuard } from './guards/no-auth.guard';
 import { ForgotPasswordComponent } from './components/forgot-password/forgot-password.component';
 import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
+import { UserManagementComponent } from './components/user-management/user-management.component';
 
 export const routes: Routes = [
   {
@@ -26,7 +27,9 @@ export const routes: Routes = [
   },
   {
     path: 'register',
-    component: RegisterComponent
+    component: RegisterComponent,
+    canActivate: [noAuthGuard],  // Aplicamos el guard para que no puedan acceder los usuarios autenticados
+
   },
   {
     path: 'products',
@@ -51,14 +54,19 @@ export const routes: Routes = [
     canActivate: [AdminGuard],  // Protección mediante AdminGuard
     children: [
       {
+        path: '',  // Ruta vacía, redirige a 'users-management'
+        redirectTo: 'users-management',  // Redirige a 'users-management'
+        pathMatch: 'full',  // Asegúrate de usar pathMatch para que la redirección sea exacta
+      },
+      {
+        path: 'users-management',
+        component: UserManagementComponent,
+        canActivate: [AdminGuard],  // Protege la ruta de Clients
+      },
+      {
         path: 'invoices',
         component: InvoicesComponent,
         canActivate: [AdminGuard],  // Protege la ruta de Invoices
-      },
-      {
-        path: 'clients',
-        component: ClientsComponent,
-        canActivate: [AdminGuard],  // Protege la ruta de Clients
       },
       {
         path: 'products',

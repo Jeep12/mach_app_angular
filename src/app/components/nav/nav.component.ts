@@ -1,22 +1,73 @@
+// src/app/components/nav/nav.component.ts
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
-import { RouterLink, RouterLinkActive, RouterModule } from '@angular/router'; // Importa RouterModule
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
+import { TokenService } from '../../services/token.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-nav',
-  standalone: true, // Marca el componente como standalone
-  imports: [CommonModule, RouterLink],// Importa RouterModule aquí
+  standalone: true,
+  imports: [CommonModule, RouterLink],
   templateUrl: './nav.component.html',
-  styleUrl: './nav.component.css'
+  styleUrls: ['./nav.component.css']
 })
-export class NavComponent {
+export class NavComponent implements OnInit, OnDestroy {
+  isAuthenticatedUser: boolean = false;
+  isLoading: boolean = false;
+  userEmail: string | null = null;
+  private authSub!: Subscription;
+  private loadingSub!: Subscription;
 
+  constructor(
+    private authService: AuthService,
+    private tokenService: TokenService,
+    private router: Router
+  ) { }
 
-  constructor(private authService: AuthService) { }
+  ngOnInit(): void {
+    // Verificar estado inicial de autenticación
+    this.checkInitialAuthStatus();
 
-  isAuthenticated(): boolean {
-    return this.authService.isAuthenticated();
+    // Suscripción a cambios de estado de autenticación
+    this.authSub = this.tokenService.authStatus$.subscribe(status => {
+      this.isAuthenticatedUser = status;
+      if (status) {
+        this.loadUserData();
+      } else {
+        this.userEmail = null;
+      }
+    });
+
+    // Suscripción a cambios de estado de carga
+    this.loadingSub = this.tokenService.loading$.subscribe(
+      loading => this.isLoading = loading
+    );
+  }
+
+  private checkInitialAuthStatus(): void {
+    const token = this.tokenService.getAccessToken();
+    if (token && this.tokenService.isAuthenticated()) {
+      this.isAuthenticatedUser = true;
+      this.loadUserData();
+    } else {
+      this.isAuthenticatedUser = false;
+      this.logout();
+    }
+  }
+
+  private loadUserData(): void {
+    const token = this.tokenService.getAccessToken();
+    if (token) {
+      const decoded = this.tokenService.decodeToken(token);
+      this.userEmail = decoded?.email || null;
+    }
+  }
+
+  ngOnDestroy(): void {
+    this.authSub?.unsubscribe();
+    this.loadingSub?.unsubscribe();
   }
 
   isAdmin(): boolean {
@@ -25,6 +76,6 @@ export class NavComponent {
 
   logout(): void {
     this.authService.logout();
-
+    this.router.navigate(['/login']);
   }
 }

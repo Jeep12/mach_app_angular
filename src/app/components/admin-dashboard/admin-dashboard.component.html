@@ -1,10 +1,22 @@
-<div class="admin-dashboard">
-    <h1>Panel de Administración</h1>
-  
-    <nav>
-      <a routerLink="/admin/products">Gestionar Productos</a>
-      <a routerLink="/admin/invoices">Gestionar Facturas</a>
-      <a routerLink="/admin/users">Gestionar Usuarios</a>
-    </nav>
-  
+<div class="container-dashboard">
+  <!-- Sidebar -->
+  <aside class="sidebar" [class.closed]="isSidebarClosed">
+    <div class="wrapper-menu">
+      <div>
+        <div class="menu">
+          <i class="fa-solid fa-arrow-right toggle-close" (click)="toggleSidebar()"></i>
+          <i class="fa-solid fa-arrow-left toggle-open" (click)="toggleSidebar()"></i>
+        </div>
+        <ul class="list-links">
+          <li><a [routerLink]="['/admin-dashboard/users-management']" routerLinkActive="active"><i class="fa-solid fa-users-gear"></i><span>Administrar Usuarios</span></a></li>
+   
+        </ul>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Contenido principal -->
+  <div class="content">
+    <router-outlet></router-outlet>
   </div>
+</div>

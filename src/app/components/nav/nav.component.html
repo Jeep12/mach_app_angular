@@ -1,42 +1,77 @@
-<nav class="navbar navbar-expand-lg">
+<nav class="navbar navbar-expand-lg  ">
   <div class="container-fluid">
-    <a class="navbar-brand" href="#"><img width="150" height="100" src="assets/images/logo2.png" alt="" srcset=""></a>
+    <a class="navbar-brand" routerLink="/">
+      <div class="logo">
+        <div class="box">ELECTRO</div>
+        <div class="highlight">MACH</div>
+      </div>
+    </a>
 
-
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
-      aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+      aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
 
-    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-      <div class="navbar-nav me-auto">
-        <a class="nav-link active" aria-current="page" href="#">Inicio</a>
-        <a class="nav-link" href="#">Productos</a>
-        <a class="nav-link" href="#">Sobre Nosotros</a>
-        <a class="nav-link" href="#">Contactanos</a>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav me-auto">
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/" routerLinkActive="active">Inicio</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/products" routerLinkActive="active">Productos</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/about" routerLinkActive="active">Sobre Nosotros</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/contact" routerLinkActive="active">Contáctanos</a>
+        </li>
+ 
+      </ul>
+
+      <!-- Spinner de carga -->
+      <div *ngIf="isLoading" class="d-flex align-items-center me-3">
+        <div class="spinner-border text-light" role="status">
+          <span class="visually-hidden">Cargando...</span>
+        </div>
       </div>
 
-      <!-- Si el usuario no está autenticado -->
-      <div class="d-flex auth-buttons" *ngIf="!isAuthenticated()">
-        <button class="btn bg-success" [routerLink]="'/register'">Registrarse</button>
-        <button class="btn bg-success" [routerLink]="'/login'">Ingresar</button>
+      <!-- Usuario no autenticado -->
+      <div *ngIf="!isAuthenticatedUser && !isLoading" class="d-flex wrapper-button-auth">
+        <button class="btn-register" routerLink="/register"><i class="fa-solid fa-user-plus"></i> Registrarse</button>
+        <button class="btn-login" routerLink="/login"><i class="fa-solid fa-user"></i> Ingresar</button>
       </div>
 
-      <!-- Si el usuario está autenticado -->
-      <div class="d-flex auth-buttons" *ngIf="isAuthenticated()">
-        <!-- Dropdown para Admin -->
+      <!-- Usuario autenticado -->
+      <div *ngIf="isAuthenticatedUser && !isLoading" class="d-flex dropdown-my-account">
         <div class="dropdown">
-          <button class="btn btn-dropdown dropdown-toggle" type="button" id="dropdownMenuButton"
-            data-bs-toggle="dropdown" aria-expanded="false">
-            Mi cuenta
+          <button class="btn btn-secondary dropdown-toggle" type="button" id="userDropdown" data-bs-toggle="dropdown"
+            aria-expanded="false">
+
+            <span> Mi cuenta</span>
           </button>
-          <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-            <li *ngIf="isAdmin()"><a class="dropdown-item" [routerLink]="'/admin-dashboard'">Admin Dashboard</a></li>
-            <li><a class="dropdown-item" (click)="logout()">Cerrar sesión</a></li>
+          <ul class="dropdown-menu " aria-labelledby="userDropdown">
+            <li *ngIf="isAdmin()">
+              <a class="dropdown-item" routerLink="/admin-dashboard">
+                <i class="fa-solid fa-screwdriver-wrench"></i> Admin Dashboard
+              </a>
+            </li>
+            <li>
+              <a class="dropdown-item" routerLink="/profile">
+                <i class="fa-solid fa-user-gear"></i> Perfil
+              </a>
+            </li>
+            <li>
+              <hr class="dropdown-divider">
+            </li>
+            <li>
+              <a class="dropdown-item logout" (click)="logout()">
+                <i class="fa-solid fa-right-from-bracket"></i> Cerrar sesión
+              </a>
+            </li>
           </ul>
         </div>
       </div>
     </div>
   </div>
 </nav>
-

@@ -3,6 +3,7 @@
   display: flex;
 }
 
+
 .login-form {
   background-color: #ffffff;
   padding: 40px;
@@ -11,13 +12,16 @@
   width: 400px;
   margin: 0 auto;
   margin-top: 100px; /* Ajusta el valor negativo para acercarlo más al navbar */
+  font-family: var(--font-primary);
+
 }
 
 .login-form h2 {
   margin-bottom: 20px;
-  color: #333;
+  color: #595959;
   font-size: 24px;
   text-align: center;
+
 }
 
 .form-group {
@@ -44,7 +48,7 @@
 }
 
 .input-container input:focus {
-  border-color: #009639;
+  border-color: var(--brand-purple);
   outline: none;
 
 }
@@ -64,7 +68,7 @@
 .input-container input:not(:placeholder-shown) ~ label {
   top: -13px; /* Mueve el label hacia arriba cuando el campo es seleccionado o contiene texto */
   font-size: 15px;
-  color: #009639;
+  color: var(--brand-purple);
 }
 
 /* Botón del ojo para mostrar/ocultar contraseña */
@@ -89,7 +93,7 @@
 
 /* Cuando el campo de contraseña tiene el foco, el botón de ojo cambia a verde */
 .input-container input:focus ~ button.btn-eye {
-  color: #009639; /* Verde */
+  color: var(--brand-purple); /* Verde */
 }
 
 
@@ -102,7 +106,7 @@
 
 /* Botón */
 .btn {
-  background-color: #009639;
+  background-color: var(--brand-purple);
   color: white;
   border: none;
   padding: 10px 20px;
@@ -114,7 +118,7 @@
 }
 
 .btn:hover {
-  background-color: #006426;
+  background-color: var(--brand-purple);
 }
 
 

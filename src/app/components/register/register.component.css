@@ -11,7 +11,8 @@
   width: 400px;
   margin: 0 auto;
   margin-top: 20px;
-  /* Ajusta el valor negativo para acercarlo más al navbar */
+  font-family: var(--font-primary);
+
 }
 
 .login-form h2 {
@@ -48,7 +49,7 @@
 }
 
 .input-container input:focus {
-  border-color: #009639;
+  border-color: var(--brand-purple);
   outline: none;
 }
 
@@ -70,7 +71,7 @@
   top: -13px;
   /* Mueve el label hacia arriba cuando el campo es seleccionado o contiene texto */
   font-size: 15px;
-  color: #009639;
+  color: var(--brand-purple);
 }
 
 .input-container input::placeholder {
@@ -107,7 +108,7 @@
 
 /* Cuando el campo de contraseña tiene el foco, el botón de ojo cambia a verde */
 .input-container input:focus~button.btn-eye {
-  color: #009639;
+  color: var(--brand-purple);
   /* Verde */
 }
 
@@ -120,7 +121,7 @@
 }
 
 .btn-submit {
-  background-color: #009639;
+  background-color: var(--brand-purple);
   color: white;
   border: none;
   padding: 10px 20px;
@@ -131,9 +132,7 @@
   width: 100%;
 }
 
-.password-info .valid {
-  color: green;
-}
+
 
 
 .btn[disabled] {

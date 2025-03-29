@@ -3,6 +3,7 @@ import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angula
 import { AuthService } from '../../services/auth.service';
 import { Router, RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { TokenService } from '../../services/token.service';
 
 @Component({
   selector: 'app-login',
@@ -15,7 +16,7 @@ export class LoginComponent {
   loginForm: FormGroup;
   message: string = ''; // Variable para mostrar el mensaje del servidor
   passwordVisible: boolean = false;  // Variable para controlar la visibilidad de la contraseña
-  constructor(private fb: FormBuilder, private authService: AuthService, private router: Router) {
+  constructor(private fb: FormBuilder, private authService: AuthService, private router: Router, private tokenService:TokenService) {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6)]]
@@ -28,9 +29,10 @@ export class LoginComponent {
       const password = this.loginForm.value.password;
 
       this.authService.login(email, password).subscribe(
-        (response: { token: any; message: string; }) => {
+        (response: { access_token: any; message: string; email: string, refresh_token: string }) => {
           // Guardar el token
-          this.authService.saveToken(response.token);
+          this.tokenService.saveAccessToken(response.access_token);
+          this.tokenService.saveRefreshToken(response.refresh_token);
 
           this.router.navigate(['/home']);
 
