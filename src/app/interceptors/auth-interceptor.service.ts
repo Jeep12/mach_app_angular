@@ -37,7 +37,6 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
         return tokenService.refreshToken().pipe(
           mergeMap((response: any) => {
             if (!response?.accessToken) {
-              console.error('No se recibió nuevo access token');
               throw new Error('No se recibió nuevo access token');
             }
 
@@ -55,7 +54,6 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
             return next(newAuthReq); // Reintenta la solicitud original
           }),
           catchError(refreshError => {
-            console.error('Error al refrescar el token:', refreshError);
             tokenService.removeTokens(); // Eliminar los tokens si no se puede refrescar
             // Redirigir al login u otra acción necesaria
             return throwError(() => refreshError);

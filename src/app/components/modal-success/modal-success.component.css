@@ -1,0 +1,18 @@
+.modal.show { 
+    display: block; 
+  }
+  
+  .modal-backdrop.show { 
+    display: block; 
+    opacity: 0.5; 
+  }
+  
+  /* Opcional: puedes añadir más estilos específicos para el modal de éxito */
+  .modal-header.bg-success {
+    background-color: #28a745;
+  }
+  
+  .btn-success {
+    background-color: #28a745;
+    border-color: #28a745;
+  }

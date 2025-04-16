@@ -33,7 +33,7 @@ export class AuthService {
 
   logout(): void {
     this.tokenService.removeTokens();
-    this.router.navigate(['/login']);
+    this.router.navigate(['/home']);
   }
 
   isAuthenticated(): boolean {
@@ -43,8 +43,12 @@ export class AuthService {
   isAdmin(): boolean {
     const token = this.tokenService.getAccessToken();
     if (token) {
-      const decodedToken = this.tokenService.decodeToken(token);
-      return decodedToken.authorities && decodedToken.authorities.includes('ROLE_ADMIN');
+      try {
+        const decodedToken = this.jwtHelper.decodeToken(token);
+        return decodedToken.authorities && decodedToken.authorities.includes('ROLE_ADMIN');
+      } catch (error) {
+        return false;
+      }
     }
     return false;
   }

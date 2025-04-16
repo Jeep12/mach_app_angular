@@ -1,19 +1,20 @@
 .container-dashboard {
   display: flex;
   width: 100%;
-  height: 100vh;
-  overflow: hidden; /* Evita scroll horizontal */
+  overflow: hidden;
+  /* Evita scroll horizontal */
   background-color: #F8F9FA;
 }
 
 .sidebar {
 
-  height: 100vh;
+  min-height: 100%;
   width: 300px;
-  min-width: 300px; /* Ancho mínimo */
+  min-width: 300px;
+  /* Ancho mínimo */
   transition: all 0.3s ease;
   background-color: white;
-  box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
   z-index: 10;
   font-family: var(--font-primary);
 }
@@ -65,7 +66,7 @@
 
 .sidebar.closed .toggle-close {
   display: block;
-  margin-left: 15px;
+  margin-left: 0px;
 }
 
 .sidebar ul {
@@ -87,7 +88,7 @@
   align-items: center;
   transition: all 0.3s ease;
   border-radius: 4px;
-  margin: 0 10px;
+  margin: 0 15px;
 }
 
 .sidebar ul li a:hover {
@@ -106,7 +107,7 @@
 }
 
 .sidebar ul li a span {
-  transition: opacity 0.3s ease, visibility 0.3s ease;
+  transition: opacity 0.3s ease, visibility 0.0s ease;
   white-space: nowrap;
 }
 
@@ -119,16 +120,18 @@
 /* Contenido principal */
 .content {
   flex-grow: 1;
-  width: calc(100% - 300px); /* Resta el ancho de la sidebar */
-  height: 100vh;
-  overflow-y: auto; /* Scroll vertical si es necesario */
+  width: calc(100% - 300px);
+  /* Resta el ancho de la sidebar */
+  overflow-y: hidden;
+  /* Scroll vertical si es necesario */
   transition: width 0.3s ease;
   padding: 20px;
   background-color: #f8f9fa;
 }
 
-.sidebar.closed ~ .content {
-  width: calc(100% - 60px); /* Ajuste cuando la sidebar está cerrada */
+.sidebar.closed~.content {
+  width: calc(100% - 60px);
+  /* Ajuste cuando la sidebar está cerrada */
 }
 
 /* Responsive */
@@ -137,21 +140,78 @@
     left: 0;
     z-index: 1000;
   }
-  
+
   .sidebar:not(.closed) {
     width: 300px;
   }
-  
+
   .content {
     width: 100%;
     margin-left: 60px;
   }
-  
-  .sidebar.closed ~ .content {
+
+  .sidebar.closed~.content {
     margin-left: 60px;
   }
-  
-  .sidebar:not(.closed) ~ .content {
+
+  .sidebar:not(.closed)~.content {
     margin-left: 300px;
   }
+}
+
+.list-item {
+  display: flex;
+  flex-direction: column;
+}
+
+.dropdown-dashboard {
+  display: none;
+  font-size: 14px;
+  margin-top: 0px !important;
+  text-align: center !important;
+  padding: 10px 0;
+  /* Añadido para control de espaciado */
+
+  width: 90% !important;
+  border-bottom-right-radius: 5px;
+  border-bottom-left-radius: 5px;
+  padding-bottom: 0px !important;
+  background-color: #f1f1f1;
+
+
+}
+
+.dropdown-dashboard li {
+  text-align: center !important;
+  display: flex;
+  width: 60% !important;
+  text-align: start !important;
+  margin: -5px auto;
+  margin-left: 16px;
+
+}
+
+.dropdown-dashboard.active {
+  display: block;
+}
+
+
+
+.dropdown-toggled {
+  cursor: pointer;
+}
+
+.dropdown-toggled i {}
+
+.dropdown-toggled span {
+  font-size: 16px;
+}
+/* Estilo para cuando el dropdown está abierto */
+.list-item.active-dropdown {
+  background-color: #f1f1f1;
+}
+
+.sidebar.closed ul li.active-dropdown li {
+  color: var(--brand-purple); /* Color del texto */
+  margin-left: 0px;
 }

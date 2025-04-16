@@ -116,7 +116,6 @@ export class RegisterComponent {
         },
         (error) => {
           // Si hay un error
-          console.error('Error de registro:', error);
           this.errors = ['Hubo un problema al registrar el usuario. \n Intentelo nuevamente'];
           this.loading = false;
 

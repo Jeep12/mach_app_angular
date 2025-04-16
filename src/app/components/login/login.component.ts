@@ -33,12 +33,10 @@ export class LoginComponent {
           // Guardar el token
           this.tokenService.saveAccessToken(response.access_token);
           this.tokenService.saveRefreshToken(response.refresh_token);
-
           this.router.navigate(['/home']);
-
         },
         (error: any) => {
-          this.message = error.error.message;
+          this.message = error.error.error;
         }
       );
     } else {

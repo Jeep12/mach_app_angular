@@ -83,7 +83,6 @@ export class TokenService {
         this.updateAuthStatus(true);
       }),
       catchError(error => {
-        console.error('Refresh token error:', error);
         this.removeTokens();
         return throwError(() => error);
       }),
@@ -105,14 +104,12 @@ export class TokenService {
 
   decodeToken(token: string): any {
     if (!token || typeof token !== 'string') {
-      console.error('Token no válido o no proporcionado');
       return null;
     }
 
     try {
       const parts = token.split('.');
       if (parts.length !== 3) {
-        console.error('El token no tiene el formato JWT estándar');
         return null;
       }
 
@@ -121,7 +118,6 @@ export class TokenService {
       const decodedPayload = atob(base64);
       return JSON.parse(decodedPayload);
     } catch (error) {
-      console.error('Error decodificando token:', error);
       return null;
     }
   }

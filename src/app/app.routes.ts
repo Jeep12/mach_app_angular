@@ -12,7 +12,11 @@ import { NgModule } from '@angular/core';
 import { noAuthGuard } from './guards/no-auth.guard';
 import { ForgotPasswordComponent } from './components/forgot-password/forgot-password.component';
 import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
-import { UserManagementComponent } from './components/user-management/user-management.component';
+import { UsersSpecificationsComponent } from './components/users-specifications/users-specifications.component';
+import { AboutComponent } from './components/about/about.component';
+import { ContactComponent } from './components/contact/contact.component';
+import { ProfileComponent } from './components/profile/profile.component';
+import { authGuard } from './guards/auth.guard';
 
 export const routes: Routes = [
   {
@@ -36,18 +40,30 @@ export const routes: Routes = [
     component: ProductListComponent,
   },
   {
-    path:'forgot-password',
-    component:ForgotPasswordComponent,
-    canActivate: [noAuthGuard],  
+    path: 'about',
+    component: AboutComponent,
+  },
+  {
+    path: 'contact',
+    component: ContactComponent,
+  },
+  {
+    path: 'forgot-password',
+    component: ForgotPasswordComponent,
+    canActivate: [noAuthGuard],
 
   },
   {
-    path:'reset-password',
-    component:ResetPasswordComponent,
-    canActivate: [noAuthGuard],  
+    path: 'reset-password',
+    component: ResetPasswordComponent,
 
-  }
-  ,
+  },
+  {
+    path: 'profile',
+    component: ProfileComponent,
+    canActivate:[authGuard]
+
+  },
   {
     path: 'admin-dashboard',
     component: AdminDashboardComponent,
@@ -55,12 +71,12 @@ export const routes: Routes = [
     children: [
       {
         path: '',  // Ruta vacía, redirige a 'users-management'
-        redirectTo: 'users-management',  // Redirige a 'users-management'
+        redirectTo: 'users-specifications',  // Redirige a 'users-management'
         pathMatch: 'full',  // Asegúrate de usar pathMatch para que la redirección sea exacta
       },
       {
-        path: 'users-management',
-        component: UserManagementComponent,
+        path: 'users-specifications',
+        component: UsersSpecificationsComponent,
         canActivate: [AdminGuard],  // Protege la ruta de Clients
       },
       {

@@ -47,7 +47,6 @@ export class ForgotPasswordComponent {
           try {
             jsonResponse = JSON.parse(response); // Intentamos convertir la respuesta en JSON
           } catch (e) {
-            console.error('Error al parsear la respuesta:', e);
             this.errors = ['Hubo un problema con la respuesta del servidor.'];
             this.loading = false;
             return;

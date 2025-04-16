@@ -1,0 +1,612 @@
+/* Variables de color */
+:root {
+  --primary-color: #4361ee;
+  --secondary-color: #3f37c9;
+  --accent-color: #4895ef;
+  --light-color: #f8f9fa;
+  --dark-color: #212529;
+  --success-color: #4cc9f0;
+  --warning-color: #f72585;
+  --gray-color: #adb5bd;
+  --card-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  --brand-purple: #6f42c1;
+}
+
+/* Estilos generales */
+.dashboard-container {
+  min-height: 100%;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+  font-family: var(--font-primary);
+}
+
+.header {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+
+}
+
+.title {
+  color: var(--dark-color);
+  font-size: 2rem;
+  font-weight: 700;
+  margin: 0;
+  text-align: center;
+}
+
+/* Barra de búsqueda */
+.search-container {
+  display: flex;
+  justify-content: center;
+}
+
+.search-box {
+  position: relative;
+  width: 100%;
+  max-width: 600px;
+}
+
+.search-input {
+  width: 100%;
+  padding: 0.8rem 1rem 0.8rem 2.5rem;
+  border: 2px solid var(--gray-color);
+  border-radius: 50px;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  box-shadow: var(--card-shadow);
+}
+
+.search-input:focus {
+  outline: none;
+  border-color: var(--brand-purple) !important;
+  box-shadow: 0 0 0px 1px var(--brand-purple);
+  background-color: rgba(111, 66, 193, 0.1);
+
+}
+
+.search-icon {
+  position: absolute;
+  left: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--gray-color);
+}
+
+.cancel-input {
+  position: absolute;
+  right: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--gray-color);
+  border: none;
+  background-color: transparent;
+}
+
+/* Controles */
+.controls {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.sort-options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.sort-label {
+  font-weight: 600;
+  color: var(--dark-color);
+  margin-right: 0.5rem;
+}
+
+.sort-btn {
+  padding: 0.5rem 1rem;
+  background-color: var(--light-color);
+  color: var(--dark-color);
+  border: 1px solid var(--gray-color);
+  border-radius: 50px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+.sort-btn:hover {
+  background-color: #e9ecef;
+}
+
+.sort-btn.active {
+  border: 1px solid var(--brand-purple);
+  color: var(--brand-purple);
+  background-color: rgba(111, 66, 193, 0.1);
+}
+
+.sort-icon {
+  font-size: 0.8rem;
+}
+
+.disabled-all {
+  padding: 0.5rem 1rem;
+  background-color: #e9ecef;
+  color: var(--dark-color);
+  border: 1px solid var(--gray-color);
+  border-radius: 50px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+.disabled-all:hover {
+  border: 1px solid var(--brand-purple);
+  color: var(--brand-purple);
+  background-color: rgba(111, 66, 193, 0.1);
+
+
+}
+
+
+.pagination-controls {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+}
+
+.page-size-select {
+  padding: 0.5rem;
+  border-radius: 4px;
+  border: 1px solid var(--gray-color);
+}
+
+.total-users {
+  font-size: 0.9rem;
+  color: var(--gray-color);
+}
+
+/* Tarjetas de usuario */
+.user-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.5rem;
+}
+
+.user-card {
+  background-color: white;
+  border-radius: 10px;
+  padding: 1.5rem;
+  box-shadow: var(--card-shadow);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  border: 1px solid #e9ecef;
+}
+
+.user-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+}
+
+.user-card.disabled {
+  opacity: 0.7;
+  background-color: #f9f9f9;
+}
+
+.user-header {
+  margin-bottom: 1rem;
+  padding-bottom: 0.8rem;
+  border-bottom: 1px solid #eee;
+}
+
+.user-name {
+  margin: 0;
+  color: var(--dark-color);
+  font-size: 1.2rem;
+}
+
+.user-status {
+  font-size: 0.8rem;
+  color: var(--gray-color);
+}
+
+/* Color rojo si el usuario NO está verificado */
+.user-status .verified-user {
+  color: red;
+}
+
+/* Si el usuario está verificado, el texto se pone verde */
+.user-status.verified .verified-user {
+  color: green;
+}
+
+/* Color rojo si el usuario está deshabilitado */
+.user-status .enabled-user {
+  color: red;
+}
+
+/* Si el usuario está habilitado, el texto se pone verde */
+.user-status.enabled .enabled-user {
+  color: green;
+}
+
+
+.user-details {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+
+.user-email {
+  margin: 0;
+  color: var(--dark-color);
+  font-size: 0.9rem;
+}
+
+.user-roles {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.role-tag {
+  display: inline-block;
+  padding: 0.3rem 0.8rem;
+  border-radius: 50px;
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+.role-admin {
+  background-color: #e0f2fe;
+  color: #0369a1;
+}
+
+.role-user {
+  background-color: #dcfce7;
+  color: #166534;
+}
+
+.user-created {
+  margin: 0;
+  font-size: 0.8rem;
+  color: var(--gray-color);
+}
+
+/* Paginación */
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 2rem;
+  flex-wrap: wrap;
+}
+
+.page-numbers {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.page-btn {
+  padding: 0.5rem 0.8rem;
+  background-color: white;
+  color: var(--dark-color);
+  border: 1px solid var(--gray-color);
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: all 0.2s ease;
+  min-width: 40px;
+}
+
+.page-btn:hover:not(:disabled) {
+  border: 1px solid var(--brand-purple);
+  color: var(--brand-purple);
+  background-color: rgba(111, 66, 193, 0.1);
+}
+
+.page-btn.active {
+  background-color: var(--brand-purple);
+  color: white;
+  border-color: var(--brand-purple);
+}
+
+.page-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.page-summary {
+  margin-left: 12px;
+  font-size: 0.9rem;
+  color: var(--gray-color);
+}
+
+/* Estados vacío y carga */
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem 0;
+  text-align: center;
+}
+
+.empty-state h3 {
+  color: var(--dark-color);
+  margin-bottom: 0.5rem;
+}
+
+.empty-state p {
+  color: var(--gray-color);
+  margin: 0.3rem 0;
+}
+
+.loading-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem 0;
+}
+
+.spinner {
+  width: 50px;
+  height: 50px;
+  border: 5px solid #f3f3f3;
+  border-top: 5px solid var(--primary-color);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 1rem;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .header {
+    gap: 1rem;
+  }
+
+  .title {
+    font-size: 1.5rem;
+  }
+
+  .controls {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .sort-options {
+    justify-content: center;
+  }
+
+  .sort-label {
+    display: none;
+  }
+
+  .user-cards {
+    grid-template-columns: 1fr;
+  }
+
+  .pagination {
+    gap: 0.5rem;
+  }
+
+  .page-summary {
+    display: none;
+  }
+}
+
+@media (max-width: 480px) {
+  .dashboard-container {
+    padding: 1rem;
+  }
+
+  .search-input {
+    padding: 0.7rem 1rem 0.7rem 2.2rem;
+  }
+
+  .sort-btn {
+    padding: 0.4rem 0.8rem;
+    font-size: 0.8rem;
+  }
+
+  .pagination {
+    flex-direction: column;
+  }
+
+  .page-numbers {
+    order: -1;
+    margin-bottom: 0.5rem;
+  }
+}
+
+/* Estilos para el popover de acciones */
+.user-header-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.user-actions-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1.2rem;
+  color: var(--gray-color);
+  padding: 0.5rem;
+  transition: all 0.2s ease;
+}
+
+.user-actions-btn:hover {
+  color: var(--dark-color);
+}
+
+.user-actions-popover {
+  position: absolute;
+  right: 50px;
+  top: 0px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  min-width: 150px;
+  overflow: hidden;
+  border: 1px solid #e9ecef;
+}
+
+.action-btn {
+  padding: 0.7rem 1rem;
+  background: none;
+  border: none;
+  text-align: left;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.action-btn:active {
+  color: var(--brand-purple);
+}
+
+.action-btn:hover {
+  background-color: #f8f9fa;
+}
+
+.action-btn.danger {
+  color: var(--warning-color);
+}
+
+.action-btn.danger:hover {
+  background-color: #ff0000;
+  color: white;
+}
+
+/* Asegurar que la tarjeta tenga posición relativa para el popover */
+.user-card {
+  position: relative;
+}
+
+.pre-header {
+  display: flex;
+
+}
+
+.pre-header div {
+  width: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: start;
+}
+
+.actions-users {
+  display: flex;
+  justify-content: end !important;
+}
+/* Estilos generales del modal */
+.modal-header-toggle-role {
+  background: linear-gradient(135deg, var(--brand-purple) 0%, #6a11cb 100%);
+  padding: 1.2rem;
+  border-top-left-radius: 0.5rem;
+  border-top-right-radius: 0.5rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.modal-header-toggle-role .modal-title {
+  font-weight: 600;
+  font-size: 1.2rem;
+}
+
+.avatar {
+  background-color: var(--brand-purple);
+  border-radius: 50%;
+}
+.btn-close-white {
+  filter: invert(1) brightness(100%);
+}
+
+/* Avatar del usuario */
+.description-user {
+  display: flex;
+  align-items: center;
+  padding: 1rem;
+  background-color: #f8f9fa;
+  border-radius: 0.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.circle {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 1.2rem;
+}
+
+/* Selector de roles */
+.role-selector {
+  border: 1px solid #dee2e6;
+  border-radius: 0.5rem;
+  padding: 1rem;
+}
+
+.form-check-input {
+  width: 1.2em;
+  height: 1.2em;
+  margin-top: 0.3em;
+}
+
+.form-check-label {
+  cursor: pointer;
+  width: 100%;
+}
+
+/* Botones */
+.btn-purple {
+  background-color: var(--brand-purple);
+  border-color: var(--brand-purple);
+}
+
+.btn-purple:hover {
+  background-color: #5a0db1;
+  border-color: #5a0db1;
+}
+
+/* Responsive */
+@media (max-width: 576px) {
+  .description-user {
+    flex-direction: column;
+    text-align: center;
+  }
+  
+  .avatar {
+    margin-bottom: 1rem;
+    margin-right: 0;
+  }
+  
+  .modal-header-toggle-role .modal-title {
+    font-size: 1rem;
+  }
+}

@@ -8,8 +8,27 @@
           <i class="fa-solid fa-arrow-left toggle-open" (click)="toggleSidebar()"></i>
         </div>
         <ul class="list-links">
-          <li><a [routerLink]="['/admin-dashboard/users-management']" routerLinkActive="active"><i class="fa-solid fa-users-gear"></i><span>Administrar Usuarios</span></a></li>
-   
+          <li>
+
+            <a class="dropdown-toggled" routerLink="/admin-dashboard/users-specifications">
+              <i class="fa-solid fa-users-gear"></i><span>Administrar Usuarios</span>
+            </a>
+
+          </li>
+
+          <!-- Administrar Productos -->
+          <li class="list-item" [ngClass]="{'active-dropdown': dropdownStates.products}">
+            <a class="dropdown-toggled" (click)="toggleDropdown('products')">
+              <i class="fa-solid fa-box"></i><span>Administrar Productos</span>
+            </a>
+            <ul class="dropdown-dashboard" [ngClass]="{'active': dropdownStates.products}">
+              <li><a href=""><i class="fas fa-plus"></i><span>Agregar producto</span></a></li>
+              <li><a href=""><i class="fas fa-edit"></i><span>Editar producto</span></a></li>
+              <li><a href=""><i class="fas fa-trash"></i><span>Elminar producto</span></a></li>
+
+            </ul>
+          </li>
+
         </ul>
       </div>
     </div>

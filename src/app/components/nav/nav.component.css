@@ -15,6 +15,7 @@
 
 .nav-link:hover {
   color: var(--brand-purple);
+  text-shadow: 0px 0px 15px var(--brand-purple);
 }
 
 .btn {
