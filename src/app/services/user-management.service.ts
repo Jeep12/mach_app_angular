@@ -41,5 +41,9 @@ export class UserManagementService {
 
     return this.http.put(`${this.apiUrl}/api/users/change-roles`, request);  // Enviar el objeto con id y roles
   }
-  
+  resendRecoveryEmail(email: string, captchaToken: string): Observable<any> {
+    return this.http.post(`${this.apiUrl}/api/users/resend-recovery-email?captchaToken=${captchaToken}`, { email: email });  // Enviar el ID del usuario
+
+  }
+
 }

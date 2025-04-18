@@ -5,14 +5,19 @@ import { FormsModule } from '@angular/forms';
 import { CommonModule, DatePipe } from '@angular/common';
 import { UserFilterSort } from '../../helpers/user-filter-sort';
 import { Role } from '../../models/role.model';
-import { ModalService } from '../../services/modal-service.service';
+import { ModalService } from '../../services/modal.service';
 import { ModalSuccessComponent } from "../modal-success/modal-success.component";
+import { ModalChangeRolesComponent } from "../modal-change-roles/modal-change-roles.component";
+import { ModalDeleteUserAdminComponent } from "../modal-delete-user-admin/modal-delete-user-admin.component";
+import { ModalDeleteUserComponent } from "../modal-delete-user/modal-delete-user.component";
+import { ModalErrorComponent } from "../modal-error/modal-error.component";
+import { ModalResendEmailRecoveryComponent } from "../modal-resend-email-recovery/modal-resend-email-recovery.component";
 declare var bootstrap: any; // Para usar Bootstrap en Angular
 
 @Component({
   selector: 'app-users-specifications',
   standalone: true,
-  imports: [CommonModule, FormsModule, DatePipe, ModalSuccessComponent],
+  imports: [CommonModule, FormsModule, DatePipe, ModalSuccessComponent, ModalChangeRolesComponent, ModalDeleteUserAdminComponent, ModalDeleteUserComponent, ModalErrorComponent, ModalResendEmailRecoveryComponent],
   templateUrl: './users-specifications.component.html',
   styleUrls: ['./users-specifications.component.css']
 })
@@ -62,7 +67,7 @@ export class UsersSpecificationsComponent implements OnInit {
 
   constructor(
     private userManagementService: UserManagementService,
-    private modalService:ModalService
+    private modalService: ModalService
   ) { }
 
   ngOnInit(): void {
@@ -71,6 +76,7 @@ export class UsersSpecificationsComponent implements OnInit {
   }
 
   loadUsers(): void {
+    console.log("Recargando usuarios...");
     this.loading = true;
     this.userManagementService.getUsers().subscribe({
       next: (data: User[]) => {
@@ -180,7 +186,6 @@ export class UsersSpecificationsComponent implements OnInit {
   closePopovers(): void {
     this.openedPopoverId = null;
   }
-  // En el componente
   @HostListener('document:click', ['$event'])
   onDocumentClick(event: MouseEvent): void {
     if (!(event.target as HTMLElement).closest('.user-actions-popover, .user-actions-btn')) {
@@ -188,15 +193,18 @@ export class UsersSpecificationsComponent implements OnInit {
     }
   }
 
-
   toggleUserStatus(user: User): void {
     this.selectUser(user);
+    console.log("clickeo cambiar ")
+
     this.userManagementService.toggleUserStatus(user.id).subscribe(response => {
       user.enabled = !user.enabled;
       this.modalAction = user.enabled ? 'habilitado' : 'deshabilitado';
-
-      const modal = new bootstrap.Modal(document.getElementById('successModal'));
-      modal.show();
+      this.modalService.showSuccess({
+        title: 'Usuario actualizado',
+        message: `El usuario ${this.selectedUser.name} ${this.selectedUser.lastname}  a sido ${this.modalAction} con exito. `,
+      });
+ 
     });
   }
   cleanInputSearch(): void {
@@ -209,92 +217,50 @@ export class UsersSpecificationsComponent implements OnInit {
     this.selectUser(user);
 
     if (user.roles.some(role => role.name === 'ROLE_ADMIN')) {
-      const modal = new bootstrap.Modal(document.getElementById('deleteUserAdminModal'));
-      modal.show();
+      this.modalService.showDeleteUserAdmin({
+        show: true
+      });
     } else {
-      const modal = new bootstrap.Modal(document.getElementById('deleteUserModal'));
-      modal.show();
-    }
-  }
-
-  confirmDelete(): void {
-    if (this.selectedUser) {
-      this.userManagementService.deleteUser(this.selectedUser.id).subscribe({
-        next: (response) => {
-          this.loadUsers();
-          const modal = new bootstrap.Modal(document.getElementById('deleteSuccess'));
-          modal.show();
-        },
-        error: (error) => {
-          console.error('Error deleting user:', error);
-        }
+      this.modalService.showDeleteUser({
+        user: user,
       });
     }
   }
 
+
   selectUser(user: User): void {
     this.selectedUser = user;
   }
-  cancelDelete(): void {
-    const modal = new bootstrap.Modal(document.getElementById('deleteUserModal'));
-    modal.hide(); // Ocultamos el modal si el usuario cancela la acción
-  }
 
-  isAdmin(): boolean {
-    return this.selectedUser?.roles.some(role => role.name === 'ROLE_ADMIN');
-  }
 
-  isUser(): boolean {
-    return this.selectedUser?.roles.some(role => role.name === 'ROLE_USER');
-  }
   toggleRoleUser(user: User): void {
     this.selectUser(user);
-    this.selectedRole = user.roles.some(role => role.name === 'ROLE_ADMIN') ? 'ROLE_ADMIN' : 'ROLE_USER';
-    const button = document.getElementById('changeRoleBtn') as HTMLElement;
-    button.blur();
-    const modal = new bootstrap.Modal(document.getElementById('roleModal'));
-    modal.show();
-    
-    // Optionally focus the first focusable element when modal opens
-    setTimeout(() => {
-      const firstFocusable = document.querySelector('#roleModal [autofocus], #roleModal button:not([disabled])');
-      if (firstFocusable) (firstFocusable as HTMLElement).focus();
+    const currentRole = user.roles.some(role => role.name === 'ROLE_ADMIN') ? 'ROLE_ADMIN' : 'ROLE_USER';
+    this.modalService.showChangeRole({
+      user: user,
+      currentRole: currentRole
     });
   }
-  changeRoles(user: User): void {
-    console.log('Rol seleccionado:', this.selectedRole);
-    console.log('Usuario:', user);
-  
-    if (!this.selectedRole) {
-      console.error('No se ha seleccionado ningún rol');
-      return;
-    }
-  
-    const roles = [this.selectedRole]; // Asegúrate que sea un array
-  
-    this.userManagementService.updateUserRoles(user.id, roles).subscribe({
-      next: (response) => {
-        console.log('Roles actualizados:', response);
-        this.loadUsers();
-        
-        // Mostrar modal de éxito con el servicio
-        this.modalService.showSuccess({
-          title: 'Rol actualizado',
-          message: `El rol del usuario ${this.selectedUser.name} ha sido cambiado a ${this.selectedRole === 'ROLE_ADMIN' ? 'Administrador' : 'Usuario'}.`
-        });
-        
-        // Eliminamos la línea que usa bootstrap.Modal
-      },
-      error: (error) => {
-        console.error('Error al actualizar roles:', error.message);
-        // Opcional: Mostrar modal de error (lo implementaremos después)
-        // this.modalService.showError({
-        //   title: 'Error al actualizar rol',
-        //   message: 'No se pudo cambiar el rol del usuario'
-        // });
-      }
-    });
+
+
+  onRoleChanged(event: { user: User | null, newRole: string }) {
+    // Lógica para cambiar rol acá
+    this.loadUsers();
   }
+  onDeleteChanged(event: { user: User | null }) {
+    this.loadUsers();
+  }
+
+  resendEmailRecovery(user: User): void {
+    console.log("clickeo enviar email")
+    this.selectUser(user);
+    this.modalService.shoeResendRecoveryEmail({
+      user: user,
+    });
+
+  }
+
+
 
 
 }

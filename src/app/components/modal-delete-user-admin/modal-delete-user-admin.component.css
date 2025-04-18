@@ -1,0 +1,16 @@
+.modal {
+    display: none;
+}
+
+.modal.show {
+    display: block;
+}
+
+.modal-backdrop {
+    display: none;
+}
+
+.modal-backdrop.show {
+    display: block;
+    opacity: 0.5;
+}

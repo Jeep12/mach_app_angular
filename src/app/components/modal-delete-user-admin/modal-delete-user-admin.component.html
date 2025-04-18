@@ -1,0 +1,63 @@
+<div class="modal fade" [class.show]="show" [style.display]="show ? 'block' : 'none'" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header bg-danger text-white text-center">
+                <i class="fas fa-shield-alt fa-lg me-2"></i>
+                <h5 class="modal-title mb-0">Restricción de Seguridad</h5>
+            </div>
+            
+            <div class="modal-body text-center px-4 py-4">
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <i class="fas fa-exclamation-triangle me-2"></i>
+                    <strong>Acción restringida</strong>
+                </div>
+                
+                <div class="mb-4">
+                    <p class="lead">
+                        <i class="fas fa-user-shield text-danger me-2"></i>
+                        Has intentado eliminar una cuenta con privilegios de <span class="text-danger fw-bold">Administrador</span>.
+                    </p>
+                    
+                    <div class="border-start border-3 border-warning ps-3 my-3">
+                        <p class="mb-1">
+                            <i class="fas fa-info-circle text-primary me-2"></i>
+                            Por políticas de seguridad del sistema, no es posible eliminar directamente cuentas administrativas.
+                        </p>
+                    </div>
+                </div>
+                
+                <div class="bg-light p-3 rounded-3 mb-3">
+                    <h6 class="text-dark mb-3">
+                        <i class="fas fa-tasks me-2 text-success"></i>
+                        Para continuar, por favor:
+                    </h6>
+                    
+                    <ol class="list-unstyled text-start mx-auto" style="max-width: 400px;">
+                        <li class="mb-2">
+                            <span class="badge bg-danger me-2">1</span>
+                            Cambia el rol a <span class="badge bg-success">Usuario estándar</span>
+                        </li>
+                        <li class="mb-2">
+                            <span class="badge bg-danger me-2">2</span>
+                            Luego intenta eliminar la cuenta nuevamente
+                        </li>
+                    </ol>
+                </div>
+                
+                <p class="text-muted small mt-3">
+                    <i class="fas fa-lock me-1"></i>
+                    Esta restricción protege la integridad del sistema y previene eliminaciones accidentales.
+                </p>
+            </div>
+            
+            <div class="modal-footer justify-content-center">
+                <button type="button" class="btn btn-danger px-4" (click)="close()">
+                    <i class="fas fa-check-circle me-2"></i>
+                    Entendido
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal-backdrop fade" [class.show]="show" [style.display]="show ? 'block' : 'none'"></div>

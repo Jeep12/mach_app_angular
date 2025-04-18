@@ -482,6 +482,8 @@
   text-align: left;
   cursor: pointer;
   transition: background-color 0.2s ease;
+  color: #595959;
+
 }
 
 .action-btn:active {
@@ -493,7 +495,7 @@
 }
 
 .action-btn.danger {
-  color: var(--warning-color);
+  color: #ff0000;
 }
 
 .action-btn.danger:hover {

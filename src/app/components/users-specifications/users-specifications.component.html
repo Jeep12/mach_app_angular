@@ -62,18 +62,21 @@
 
         <div class="user-actions-popover" *ngIf="openedPopoverId === user.id">
           <button class="action-btn" (click)="toggleRoleUser(user)">
-            Editar roles
+            <i class="fas fa-user-cog"></i> Editar roles
           </button>
           <button class="action-btn" (click)="toggleUserStatus(user)">
+            <i class="fas" [ngClass]="user.enabled ? 'fa-user-times' : 'fa-user-check'"></i>
             {{ user.enabled ? 'Deshabilitar' : 'Habilitar' }}
           </button>
 
           <button class="action-btn">
-            Reenviar email verificacion
+            <i class="fas fa-envelope-open-text me-2"></i> Reenviar email verificacion
           </button>
-          <button class="action-btn">Reenviar email recuperacion</button>
+          <button class="action-btn" (click)="resendEmailRecovery(user)">
+             <i class="fas fa-key"></i> Reenviar email recuperacion
+          </button>
           <button class="action-btn danger" (click)="deleteUser(user)">
-            Eliminar
+            <i class="fas fa-trash-alt me-2"></i> Eliminar
           </button>
         </div>
 
@@ -85,8 +88,8 @@
               [class.role-user]="role.name === 'ROLE_USER'">
               <i *ngIf="role.name === 'ROLE_ADMIN'" class="fas fa-crown text-warning me-2"></i>
               <i *ngIf="role.name === 'ROLE_USER'" class="fas fa-user text-primary me-2"></i>
-              {{ role.name === 'ROLE_ADMIN' ? ' Administrador' : 'Usuario' }}
-              
+              {{ role.name === 'ROLE_ADMIN' ? ' Administrador' : 'Cliente' }}
+
             </span>
           </div>
 
@@ -131,199 +134,11 @@
 </div>
 
 
-<div class="modal fade" id="successModal" tabindex="-1">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header text-white text-center"
-        [ngClass]="modalAction === 'habilitado' ? 'bg-success' : 'bg-danger'">
-        <h5 class="modal-title w-100">
-          <i [ngClass]="modalAction === 'habilitado' ? 'fa-check-circle' : 'fa-times-circle'" class="fa-solid"></i>
-          Usuario {{ modalAction }}!
-        </h5>
-      </div>
-
-      <div class="modal-body text-center">
-        <p>El usuario <b>{{ selectedUser.name }} {{ selectedUser.lastname }}</b> con ID: {{ selectedUser.id }} fue {{
-          modalAction }} con éxito.</p>
-      </div>
-
-      <div class="modal-footer d-flex justify-content-center">
-        <button type="button" class="btn text-white"
-          [ngClass]="modalAction === 'habilitado' ? 'bg-success' : 'bg-danger'" data-bs-dismiss="modal">
-          Entendido
-        </button>
-      </div>
-    </div>
-  </div>
-</div>
-
-<div class="modal fade" id="deleteUserModal" tabindex="-1">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header text-white text-center bg-danger">
-        <h5 class="modal-title w-100">
-          Estás por eliminar al usuario
-        </h5>
-      </div>
-
-      <div class="modal-body text-center">
-        <p>¿Estás seguro de que deseas eliminar al usuario con los siguientes datos?</p>
-        <p><strong>Nombre:</strong> {{ selectedUser.name }} {{ selectedUser.lastname }}</p>
-        <p><strong>ID:</strong> {{ selectedUser.id }}</p>
-        <p><strong>Email:</strong> {{ selectedUser.email }}</p>
-      </div>
-
-      <div class="modal-footer d-flex justify-content-center">
-        <button type="button" class="btn btn-danger" (click)="confirmDelete()" data-bs-dismiss="modal">Confirmar
-          eliminación</button>
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-      </div>
-    </div>
-  </div>
-</div>
 
 
-
-<div class="modal fade" id="deleteUserAdminModal" tabindex="-1">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header text-white text-center bg-danger">
-        <h5 class="modal-title w-100">
-          <i class="fas fa-times-circle me-2"></i> Acción no posible
-        </h5>
-      </div>
-
-      <div class="modal-body text-center">
-        <p><strong>Estás intentando eliminar un usuario administrador</strong>.</p>
-        <p>Para poder eliminarlo, primero debes cambiar su rol de administrador a un rol de usuario estándar.</p>
-        <p><strong>Detalles del usuario:</strong></p>
-        <ul class="list-unstyled">
-          <li><strong>Nombre:</strong> {{ selectedUser.name }} {{ selectedUser.lastname }}</li>
-          <li><strong>Email:</strong> {{ selectedUser.email }}</li>
-          <li><strong>Rol:</strong> Administrador</li>
-        </ul>
-        <p>Una vez que el rol haya sido actualizado, podrás proceder con la eliminación.</p>
-      </div>
-
-      <div class="modal-footer d-flex justify-content-center">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Entendido</button>
-      </div>
-    </div>
-  </div>
-</div>
-
-
-<div class="modal fade" id="deleteSuccess" tabindex="-1">
-  <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content">
-      <div class="modal-header text-white text-center bg-success">
-        <h5 class="modal-title w-100">
-          <i class="fa fa-check-circle" style="font-size: 2rem;"></i> Usuario eliminado con éxito
-        </h5>
-      </div>
-
-      <div class="modal-body text-center">
-        El usuario <strong>{{ selectedUser.name }} {{ selectedUser.lastname }}</strong> fue eliminado
-        satisfactoriamente.
-        <ul style="list-style: none; text-align: start;margin-top: 10px;">
-          <li><strong>Detalle:</strong></li>
-          <li>ID: {{ selectedUser.id }}</li>
-          <li>Email: {{ selectedUser.email }}</li>
-        </ul>
-      </div>
-
-      <div class="modal-footer d-flex justify-content-center">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Entendido</button>
-      </div>
-    </div>
-  </div>
-</div>
-
-
-<div class="modal fade" id="roleModal" tabindex="-1"  aria-labelledby="roleModalLabel" aria-modal="true" >
-  <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content border-0 shadow-lg">
-      <!-- Encabezado del modal -->
-      <div class="modal-header-toggle-role text-white">
-        <h5 class="modal-title">
-          <i class="fas fa-user-edit me-2"></i>
-          Editar roles: {{selectedUser.name}} {{selectedUser.lastname}}
-        </h5>
-      </div>
-
-      <!-- Cuerpo del modal -->
-      <div class="modal-body p-4">
-        <!-- Información del usuario -->
-        <div class="description-user mb-4">
-          <div class="avatar me-3">
-            <div class="circle  text-white">
-              {{selectedUser.name[0]}}{{selectedUser.lastname[0]}}
-            </div>
-          </div>
-          <div class="description">
-            <h6 class="mb-1 fw-bold">{{selectedUser.name}} {{selectedUser.lastname}}</h6>
-            <p class="text-muted mb-1">{{selectedUser.email}}</p>
-            <span class="badge" [ngClass]="selectedUser.enabled ? 'bg-success' : 'bg-danger'">
-              {{selectedUser.enabled ? 'Activo' : 'Inactivo'}}
-            </span>
-          </div>
-        </div>
-
-        <!-- Roles actuales -->
-        <div class="current-roles mb-4">
-          <h6 class="fw-bold text-start mb-3">Roles actuales:</h6>
-          <div class="d-flex gap-2">
-            <div *ngFor="let role of selectedUser?.roles">
-              <span class="badge py-2 px-3" [ngClass]="role.name === 'ROLE_ADMIN' ? 'bg-danger' : 'bg-secondary'">
-                <i class="fas me-2" [ngClass]="role.name === 'ROLE_ADMIN' ? 'fa-crown' : 'fa-user'"></i>
-                {{ role.name === 'ROLE_ADMIN' ? 'Administrador' : 'Usuario' }}
-              </span>
-            </div>
-          </div>
-        </div>
-
-        <!-- Selector de roles -->
-        <div class="description-roles">
-          <h6 class="fw-bold text-start mb-3">Seleccionar nuevo rol:</h6>
-          <div class="role-selector">
-            <div class="form-check mb-3">
-              <input class="form-check-input" type="radio" id="role-admin" name="role" value="ROLE_ADMIN"
-                [checked]="isAdmin()" [disabled]="isAdmin()" [(ngModel)]="selectedRole">
-              <label class="form-check-label d-flex align-items-center" for="role-admin">
-                <i class="fas fa-crown text-warning me-2"></i>
-                <div>
-                  <div class="fw-bold">Administrador</div>
-                  <small class="text-muted">Acceso completo al sistema</small>
-                </div>
-              </label>
-            </div>
-            <div class="form-check">
-              <input class="form-check-input" type="radio" id="role-user" name="role" value="ROLE_USER"
-                [checked]="!isAdmin()" [disabled]="!isAdmin()" [(ngModel)]="selectedRole">
-              <label class="form-check-label d-flex align-items-center" for="role-user">
-                <i class="fas fa-user text-primary me-2"></i>
-                <div>
-                  <div class="fw-bold">Usuario</div>
-                  <small class="text-muted">Acceso básico al sistema</small>
-                </div>
-              </label>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Pie del modal -->
-      <div class="modal-footer border-top-0">
-        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
-          <i class="fas fa-times me-2"></i> Cancelar
-        </button>
-        <button type="button" id="changeRoleBtn" class="btn btn-purple text-white"
-          (click)="$event.stopPropagation(); changeRoles(selectedUser)">
-          <i class="fas fa-save me-2"></i> Guardar Cambios
-        </button>
-      </div>
-    </div>
-  </div>
-</div>
-
+<app-modal-delete-user-admin></app-modal-delete-user-admin>
+<app-modal-delete-user (userDeleted)="onDeleteChanged($event)"></app-modal-delete-user>
+<app-modal-change-roles (roleChanged)="onRoleChanged($event)"></app-modal-change-roles>
 <app-modal-success></app-modal-success>
+<app-modal-error></app-modal-error>
+<app-modal-resend-email-recovery></app-modal-resend-email-recovery>

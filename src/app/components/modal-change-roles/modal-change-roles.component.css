@@ -1,0 +1,296 @@
+/* Estilos mejorados para el modal de cambio de roles */
+
+/* Estructura base */
+.modal {
+  display: none;
+}
+
+.modal.show {
+  display: block;
+}
+
+.modal-dialog {
+  max-width: 500px;
+}
+
+.modal-content {
+  border: none;
+  border-radius: 0.5rem;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
+}
+
+/* Encabezado */
+.header-change-roles {
+  background-color: var(--brand-purple);
+  color: white;
+  padding: 1.25rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.header-change-roles .modal-title {
+  font-family: var(--font-montserrat);
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.btn-close-white {
+  filter: invert(1);
+}
+
+/* Cuerpo del modal */
+.modal-body {
+  padding: 1.5rem;
+}
+
+/* Tarjeta de usuario */
+.user-card {
+  display: flex;
+  gap: 1rem;
+  padding: 1rem;
+  background-color: #f8f9fa;
+  border-radius: 0.5rem;
+  margin-bottom: 1.5rem;
+  border-left: 4px solid var(--brand-purple);
+}
+
+.user-avatar {
+  flex-shrink: 0;
+}
+
+.avatar-circle {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background-color: var(--brand-purple);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.25rem;
+  font-weight: bold;
+}
+
+.user-details {
+  flex: 1;
+}
+
+.user-details h4 {
+  margin: 0 0 0.25rem 0;
+  font-size: 1.1rem;
+  color: #2c3e50;
+}
+
+.user-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.user-email {
+  font-size: 0.9rem;
+  color: #6c757d;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.user-status {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.badge {
+  font-size: 0.75rem;
+  font-weight: 500;
+  padding: 0.35em 0.65em;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+/* Sección de roles */
+.section-title {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--brand-purple);
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+}
+
+.current-roles-section {
+  margin-bottom: 1.5rem;
+}
+
+.roles-container {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.role-badge {
+  padding: 0.5rem 0.75rem;
+  border-radius: 4px;
+  font-size: 0.85rem;
+  display: inline-flex;
+  align-items: center;
+}
+
+.admin-badge {
+  background-color: #dc3545;
+  color: white;
+}
+
+.user-badge {
+  background-color: #6c757d;
+  color: white;
+}
+
+/* Selector de roles */
+.role-options {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.role-option {
+  display: flex;
+  align-items: center;
+}
+
+.form-check-input {
+  margin-right: 0.75rem;
+}
+
+.form-check-label {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  width: 100%;
+  cursor: pointer;
+  padding: 0.75rem;
+  border-radius: 0.5rem;
+  transition: all 0.2s;
+}
+
+.form-check-label:hover {
+  background-color: #f8f9fa;
+}
+
+.role-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+}
+
+.admin-icon {
+  background-color: rgba(220, 53, 69, 0.1);
+  color: #dc3545;
+}
+
+.user-icon {
+  background-color: rgba(108, 117, 125, 0.1);
+  color: #6c757d;
+}
+
+.role-info {
+  flex: 1;
+}
+
+.role-name {
+  font-weight: 600;
+  margin-bottom: 0.1rem;
+}
+
+.role-description {
+  font-size: 0.8rem;
+  color: #6c757d;
+}
+
+/* Pie del modal */
+.modal-footer {
+  border-top: 1px solid #e9ecef;
+  padding: 1rem 1.5rem;
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.75rem;
+}
+
+.btn-outline-secondary {
+  border-color: #6c757d;
+  color: #6c757d;
+}
+
+.btn-outline-secondary:hover {
+  background-color: #6c757d;
+  color: white;
+}
+
+.btn-save-changes {
+  background-color: var(--brand-purple);
+  color: white;
+  border: none;
+  transition: all 0.2s;
+}
+
+.btn-save-changes:hover {
+  background-color: #5a2d82;
+  transform: translateY(-1px);
+}
+
+.btn-save-changes:active {
+  transform: translateY(0);
+}
+
+/* Fondo del modal */
+.modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1040;
+  width: 100vw;
+  height: 100vh;
+  background-color: #000;
+  opacity: 0;
+  transition: opacity 0.15s linear;
+  display: none;
+}
+
+.modal-backdrop.show {
+  display: block;
+  opacity: 0.5;
+}
+
+/* Responsive */
+@media (max-width: 576px) {
+  .user-card {
+    flex-direction: column;
+    text-align: center;
+  }
+  
+  .avatar-circle {
+    margin: 0 auto;
+  }
+  
+  .user-status {
+    justify-content: center;
+  }
+}
+.role-admin {
+  background-color: #e0f2fe;
+  color: #0369a1;
+}
+
+.role-user {
+  background-color: #dcfce7;
+  color: #166534;
+}

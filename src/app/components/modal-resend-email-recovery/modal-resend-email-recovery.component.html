@@ -1,0 +1,88 @@
+<div class="modal fade" [class.show]="show" [style.display]="show ? 'block' : 'none'" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header modal-header-resend-email-recovery">
+                <h5 class="modal-title">
+                    <i class="fas fa-key"></i> Reenvío de Credenciales
+                </h5>
+            </div>
+
+            <div class="modal-body">
+                <!-- Tarjeta de información del usuario -->
+                <div class="user-card">
+                    <div class="user-avatar">
+                        <div class="avatar-circle">
+                            {{user?.name?.charAt(0)}}{{user?.lastname?.charAt(0)}}
+                        </div>
+                    </div>
+                    <div class="user-details">
+                        <h4>{{user?.name}} {{user?.lastname}}</h4>
+                        <div class="user-meta">
+                            <span class="user-email">
+                                <i class="fas fa-envelope"></i> {{user?.email}}
+                            </span>
+                            <div class="user-status">
+                                <span class="badge" [ngClass]="{
+                                    'bg-success': user?.enabled,
+                                    'bg-danger': !user?.enabled
+                                }">
+                                    {{user?.enabled ? 'Activo' : 'Inactivo'}}
+                                </span>
+                                <span class="badge bg-admin" *ngIf="isAdmin()">
+                                    <i class="fas fa-shield-alt"></i> Administrador
+                                </span>
+                                <span class="badge bg-warning text-dark" *ngIf="!user?.emailVerified">
+                                    <i class="fas fa-exclamation-circle"></i> Email no verificado
+                                </span>
+                            </div>
+                            <div class="user-created">
+                                <small>
+                                    <i class="far fa-calendar-alt"></i>
+                                    Miembro desde: {{user?.createdAt | date:'dd/MM/yyyy'}}
+                                </small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+                <!-- Mensaje de confirmación -->
+                <div class="confirmation-message">
+                    <div class="alert alert-warning">
+                        <i class="fas fa-exclamation-triangle"></i>&nbsp;
+                        <strong>Instrucciones</strong>
+                        <p>Se enviará un enlace de recuperación de contraseña a la dirección de email registrada.</p>
+                        <p> Informa al usuario que el email podría estar en la casilla de spam</p>
+                    </div>
+                </div>
+            </div>
+            <div class="container-captcha">
+                <p>Para continuar con el envio de email complete el captcha</p>
+                <div style="display: flex;justify-content: center;margin-bottom: 10px;">
+                    <re-captcha #recaptcha [siteKey]="siteKey" (resolved)="executeRecaptchaVisible($event)">
+                    </re-captcha>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-secondary" (click)="close()">
+                    <i class="fas fa-times"></i> Cancelar
+                </button>
+
+                <!-- Botón con spinner y lógica de deshabilitado -->
+                <button type="button" class="btn btn-send" (click)="sendEmailRecovery()"
+                    [disabled]="!captchaToken || loading">
+                    <span *ngIf="!loading"> <!-- Texto normal -->
+                        <i class="fas fa-paper-plane"></i> Reenviar Credenciales
+                    </span>
+                    <span *ngIf="loading"> <!-- Spinner cuando loading = true -->
+                        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                        Enviando...
+                    </span>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal-backdrop fade" [class.show]="show"></div>
