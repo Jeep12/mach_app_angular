@@ -49,7 +49,7 @@ export class ModalResendEmailRecoveryComponent {
 
     this.loading = true;
 
-    this.userManagementService.resendRecoveryEmail(this.user.email,this.captchaToken).subscribe({
+    this.userManagementService.resendRecoveryEmail(this.user.email, this.captchaToken).subscribe({
       next: (response) => {
         this.modalService.showSuccess({
           title: 'Email enviado',
@@ -61,56 +61,56 @@ export class ModalResendEmailRecoveryComponent {
 
         const msRemaining = err.error.expiresAt;                       // milisegundos que faltan
         const remainingTime = this.formatTimeRemaining(msRemaining);
-        
+
         this.modalService.showError({
           title: 'Email no enviado',
           message: `${err.error.message}. Inténtalo de nuevo en ${remainingTime}`,
         });
 
-    this.resetModalState();
-  },
-  complete: () => {
+        this.resetModalState();
+      },
+      complete: () => {
         this.loading = false;
       }
     });
   }
 
-executeRecaptchaVisible(token: any) {
-  this.captchaToken = token;
-  this.sendRecoveryEmailForm.get('recaptcha')?.setValue(token);
+  executeRecaptchaVisible(token: any) {
+    this.captchaToken = token;
+    this.sendRecoveryEmailForm.get('recaptcha')?.setValue(token);
 
-}
+  }
 
-close(): void {
-  this.resetModalState();
-  this.modalService.hide();
-  this.resetRecaptcha();
-}
+  close(): void {
+    this.resetModalState();
+    this.modalService.hide();
+    this.resetRecaptcha();
+  }
   private resetModalState(): void {
-  this.loading = false;
-  this.captchaToken = null;
-  this.lastEmailSent = null;
-  this.isCooldown = false;
-  this.sendRecoveryEmailForm.reset();
-  this.resetRecaptcha(); // Añade esto también aquí por si acaso
-}
+    this.loading = false;
+    this.captchaToken = null;
+    this.lastEmailSent = null;
+    this.isCooldown = false;
+    this.sendRecoveryEmailForm.reset();
+    this.resetRecaptcha(); // Añade esto también aquí por si acaso
+  }
   private resetRecaptcha(): void {
-  if(this.recaptcha) {
-  this.recaptcha.reset();
-}
+    if (this.recaptcha) {
+      this.recaptcha.reset();
+    }
   }
 
 
 
   private formatTimeRemaining(msRemaining: number): string {
-  const totalSeconds = Math.ceil(msRemaining / 1000);
-  const minutes = Math.floor(totalSeconds / 60);
-  const seconds = totalSeconds % 60;
-  return `${this.pad(minutes)}m ${this.pad(seconds)}s`;
-}
-  
+    const totalSeconds = Math.ceil(msRemaining / 1000);
+    const minutes = Math.floor(totalSeconds / 60);
+    const seconds = totalSeconds % 60;
+    return `${this.pad(minutes)}m ${this.pad(seconds)}s`;
+  }
+
   private pad(value: number): string {
-  return value.toString().padStart(2, '0');
-}
-  
+    return value.toString().padStart(2, '0');
+  }
+
 }

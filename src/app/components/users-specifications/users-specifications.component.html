@@ -43,7 +43,7 @@
         <div class="user-header">
           <div class="pre-header">
             <div>
-              <p>ID: {{user.id}}</p>
+              <p><strong>ID: {{user.id}}</strong></p>
             </div>
             <div class="actions-users">
               <button class="user-actions-btn" (click)="toggleUserActions(user.id)">
@@ -69,11 +69,11 @@
             {{ user.enabled ? 'Deshabilitar' : 'Habilitar' }}
           </button>
 
-          <button class="action-btn">
+          <button class="action-btn" (click)="resendEmailVerification(user)">
             <i class="fas fa-envelope-open-text me-2"></i> Reenviar email verificacion
           </button>
           <button class="action-btn" (click)="resendEmailRecovery(user)">
-             <i class="fas fa-key"></i> Reenviar email recuperacion
+            <i class="fas fa-key"></i> Reenviar email recuperacion
           </button>
           <button class="action-btn danger" (click)="deleteUser(user)">
             <i class="fas fa-trash-alt me-2"></i> Eliminar
@@ -85,16 +85,23 @@
 
           <div class="user-roles">
             <span *ngFor="let role of user.roles" class="role-tag" [class.role-admin]="role.name === 'ROLE_ADMIN'"
-              [class.role-user]="role.name === 'ROLE_USER'">
+              [class.role-user]="role.name === 'ROLE_USER'" [class.role-employee]="role.name === 'ROLE_EMPLOYEE'">
+
               <i *ngIf="role.name === 'ROLE_ADMIN'" class="fas fa-crown text-warning me-2"></i>
               <i *ngIf="role.name === 'ROLE_USER'" class="fas fa-user text-primary me-2"></i>
-              {{ role.name === 'ROLE_ADMIN' ? ' Administrador' : 'Cliente' }}
+              <i *ngIf="role.name === 'ROLE_EMPLOYEE'" class="fas fa-briefcase text-success me-2"></i>
 
+              {{
+              role.name === 'ROLE_ADMIN' ? 'Administrador' :
+              role.name === 'ROLE_USER' ? 'Usuario' :
+              role.name === 'ROLE_EMPLOYEE' ? 'Empleado' : ''
+              }}
             </span>
+
           </div>
 
           <p class="user-created" *ngIf="user.createdAt">
-            📅 Creado: {{ user.createdAt | date:'medium' }}
+            📅 Miembro desde: {{ user.createdAt | date:'medium' }}
           </p>
         </div>
       </div>

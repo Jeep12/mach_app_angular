@@ -7,7 +7,7 @@
         </h5>
         <button type="button" class="btn-close btn-close-white" (click)="close()" aria-label="Close"></button>
       </div>
-      
+
       <div class="modal-body">
         <!-- Tarjeta de usuario mejorada -->
         <div class="user-card">
@@ -29,15 +29,16 @@
                 }">
                   {{user?.enabled ? 'Activo' : 'Inactivo'}}
                 </span>
-                
+
                 <span class="badge" [ngClass]="{
                   'bg-success': user?.emailVerified,
                   'bg-warning text-dark': !user?.emailVerified
                 }">
-                  <i class="fas" [class.fa-check-circle]="user?.emailVerified" [class.fa-exclamation-circle]="!user?.emailVerified"></i>
+                  <i class="fas" [class.fa-check-circle]="user?.emailVerified"
+                    [class.fa-exclamation-circle]="!user?.emailVerified"></i>
                   {{user?.emailVerified ? 'Email verificado' : 'Email no verificado'}}
                 </span>
-                
+
                 <span class="badge bg-secondary" *ngIf="user?.createdAt">
                   <i class="far fa-calendar-alt"></i> {{user?.createdAt | date:'dd/MM/yyyy'}}
                 </span>
@@ -54,17 +55,18 @@
           <div class="roles-container">
             <div *ngFor="let role of user?.roles" class="role-badge-container">
               <span class="role-badge" [ngClass]="{
-                'role-admin': role.name === 'ROLE_ADMIN',
-                'role-user': role.name === 'ROLE_USER'
+                'role-user': role.name === 'ROLE_USER',
+                'role-employee': role.name === 'ROLE_EMPLOYEE'
               }">
                 <i class="fas me-2" [ngClass]="{
-                  'fa-crown': role.name === 'ROLE_ADMIN',
-                  'fa-user': role.name === 'ROLE_USER'
+                  'fa-user': role.name === 'ROLE_USER',
+                  'fa-briefcase': role.name === 'ROLE_EMPLOYEE'
                 }"></i>
-                {{ role.name === 'ROLE_ADMIN' ? 'Administrador' : 'Usuario' }}
+                {{ role.name === 'ROLE_EMPLOYEE' ? 'Empleado' : 'Usuario' }}
               </span>
             </div>
           </div>
+
         </div>
 
         <!-- Selector de roles -->
@@ -74,36 +76,36 @@
           </h6>
           <div class="role-options">
             <div class="role-option">
-              <input class="form-check-input" type="radio" id="role-admin" name="role" value="ROLE_ADMIN"
-                [checked]="isAdmin()" [disabled]="isAdmin()" [(ngModel)]="currentRole">
-              <label class="form-check-label" for="role-admin">
+              <input class="form-check-input" type="checkbox" id="role-employee" name="role" value="ROLE_EMPLOYEE"
+                [checked]="isEmployee()" [(ngModel)]="isEmployeeChecked">
+              <label class="form-check-label" for="role-employee">
                 <div class="role-icon admin-icon">
                   <i class="fas fa-crown"></i>
                 </div>
                 <div class="role-info">
-                  <div class="role-name">Administrador</div>
-                  <div class="role-description">Acceso completo al sistema</div>
+                  <div class="role-name">Empleado</div>
+                  <div class="role-description">Acceso laboral al sistema</div>
                 </div>
               </label>
             </div>
-            
+
             <div class="role-option">
-              <input class="form-check-input" type="radio" id="role-user" name="role" value="ROLE_USER"
-                [checked]="!isAdmin()" [disabled]="!isAdmin()" [(ngModel)]="currentRole">
+              <input class="form-check-input" type="checkbox" id="role-user" name="role" value="ROLE_USER"
+                [checked]="isUser()" [disabled]="isUser()" [(ngModel)]="currentRole">
               <label class="form-check-label" for="role-user">
                 <div class="role-icon user-icon">
                   <i class="fas fa-user"></i>
                 </div>
                 <div class="role-info">
                   <div class="role-name">Usuario Estándar</div>
-                  <div class="role-description">Acceso básico al sistema</div>
+                  <div class="role-description">Acceso básico al sistema (requerido)</div>
                 </div>
               </label>
             </div>
           </div>
         </div>
       </div>
-      
+
       <div class="modal-footer">
         <button type="button" class="btn btn-outline-secondary" (click)="close()">
           <i class="fas fa-times me-2"></i> Cancelar

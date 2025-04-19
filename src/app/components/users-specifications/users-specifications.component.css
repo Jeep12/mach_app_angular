@@ -274,6 +274,19 @@
   background-color: #dcfce7;
   color: #166534;
 }
+.role-user i {
+  color: #166333 !important;
+
+}
+
+.role-employee {
+  color: var(--brand-purple);
+  background-color: rgba(111, 66, 193, 0.1);
+}
+
+.role-employee i {
+  color: rgba(110, 66, 193, 0.699) !important;
+}
 
 .user-created {
   margin: 0;
@@ -481,9 +494,9 @@
   border: none;
   text-align: left;
   cursor: pointer;
-  transition: background-color 0.2s ease;
-  color: #595959;
+  color: rgb(94, 94, 94);
 
+  transition: background-color 0.2s ease;
 }
 
 .action-btn:active {
@@ -495,7 +508,7 @@
 }
 
 .action-btn.danger {
-  color: #ff0000;
+  color: var(--warning-color);
 }
 
 .action-btn.danger:hover {
@@ -524,6 +537,7 @@
   display: flex;
   justify-content: end !important;
 }
+
 /* Estilos generales del modal */
 .modal-header-toggle-role {
   background: linear-gradient(135deg, var(--brand-purple) 0%, #6a11cb 100%);
@@ -542,6 +556,7 @@
   background-color: var(--brand-purple);
   border-radius: 50%;
 }
+
 .btn-close-white {
   filter: invert(1) brightness(100%);
 }
@@ -602,12 +617,12 @@
     flex-direction: column;
     text-align: center;
   }
-  
+
   .avatar {
     margin-bottom: 1rem;
     margin-right: 0;
   }
-  
+
   .modal-header-toggle-role .modal-title {
     font-size: 1rem;
   }

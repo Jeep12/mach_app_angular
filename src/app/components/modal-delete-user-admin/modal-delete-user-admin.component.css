@@ -14,3 +14,54 @@
     display: block;
     opacity: 0.5;
 }
+
+.modal-header h5 {
+    width: 100%;
+    text-align: center;
+}
+
+.security-policies-card {
+    background-color: #f5f5f5;
+    border-left:3px solid #DC3545 ;
+}
+
+.security-policies-card h6 {
+    color: #DC3545;
+}
+
+.security-policies-list {
+    list-style: none;
+    padding: 0px;
+
+}
+.lead {
+    font-size: 17px;
+}
+
+
+.security-policies-list li {
+    transition-duration: 0.5s;
+    color: #212529;
+    padding: 5px 0;
+    width: 100%;
+    text-align: start;
+    padding-left: 10px;
+}
+
+.security-policies-list li span {
+    font-weight: 600;
+    color: #212529;
+}
+
+.security-policies-list li:hover {
+    padding: 5px;
+    cursor: pointer;
+}
+
+.security-policies-list li i {
+    color: red;
+}
+
+.security-allowed-item i {
+    color: green !important;
+}

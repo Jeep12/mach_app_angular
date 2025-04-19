@@ -48,7 +48,6 @@
 }
 
 .input-container input:focus {
-  border-color: var(--brand-purple);
   outline: none;
 
 }
@@ -68,7 +67,7 @@
 .input-container input:not(:placeholder-shown) ~ label {
   top: -13px; /* Mueve el label hacia arriba cuando el campo es seleccionado o contiene texto */
   font-size: 15px;
-  color: var(--brand-purple);
+
 }
 
 /* Botón del ojo para mostrar/ocultar contraseña */
@@ -93,7 +92,6 @@
 
 /* Cuando el campo de contraseña tiene el foco, el botón de ojo cambia a verde */
 .input-container input:focus ~ button.btn-eye {
-  color: var(--brand-purple); /* Verde */
 }
 
 

@@ -22,6 +22,7 @@ export class ModalDeleteUserComponent {
       this.show = state.show;
       this.user = state.config.user;
     });
+    this.resetModalState();
   }
 
   confirmDelete(): void {
@@ -36,9 +37,9 @@ export class ModalDeleteUserComponent {
             message: `El usuario  ${name} ${lastname}  ha sido eliminado. `,
           });
           this.userDeleted.emit({ user: this.user });
+          this.resetModalState();
         },
         error: (error) => {
-          console.error('Error deleting user:', error);
         }
       });
     }
@@ -51,8 +52,21 @@ export class ModalDeleteUserComponent {
   isAdmin(): boolean {
     return this.user?.roles?.some(r => r.name === 'ROLE_ADMIN') || false;
   }
+  isEmployee(): boolean {
+    return this.user?.roles?.some(r => r.name === 'ROLE_EMPLOYEE') || false;
+  }
+  isUser(): boolean {
+    return this.user?.roles?.some(r => r.name === 'ROLE_USER') || false;
+
+  }
   close() {
+    this.resetModalState();
     this.modalService.hide();
   }
 
+  private resetModalState(): void {
+    this.confirmationChecked = false;
+    this.user = null;
+  }
 }
+

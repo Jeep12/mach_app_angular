@@ -78,7 +78,6 @@ input:-webkit-autofill:active {
     color: white !important;  /* El color del texto */
     transition: background-color 5000s ease-in-out 0s;
     background-color: transparent !important;  /* El color de fondo oscuro */
-    border: 1px solid var(--brand-purple) !important;  /* El borde oscuro para que no se ponga blanco */
 }
  /* Estilos para navegadores basados en WebKit (Chrome, Edge, Safari) */
 ::-webkit-scrollbar {

@@ -7,6 +7,8 @@ import { Router } from '@angular/router';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { TokenService } from './token.service';
 import { LoginResponse } from '../models/auth-responses';
+import { User } from '../models/user.model';
+import { Role } from '../models/role.model';
 
 @Injectable({
   providedIn: 'root'
@@ -51,6 +53,29 @@ export class AuthService {
       }
     }
     return false;
+  }
+  isEmployee(): boolean {
+    const token = this.tokenService.getAccessToken();
+    if (token) {
+      try {
+        const decodedToken = this.jwtHelper.decodeToken(token);
+        return decodedToken.authorities && decodedToken.authorities.includes('ROLE_EMPLOYEE');
+      } catch (error) {
+        return false;
+      }
+    }
+    return false;
+  }
+  hasAdminRole(user: User): boolean {
+    return user.roles.some((role: Role) => role.name === 'ROLE_ADMIN');
+  }
+
+  hasEmployeeRole(user: User): boolean {
+    return user.roles.some((role: Role) => role.name === 'ROLE_EMPLOYEE');
+  }
+
+  hasUserRole(user: User): boolean {
+    return user.roles.some((role: Role) => role.name === 'ROLE_USER');
   }
 
   register(firstName: string, lastName: string, email: string, password: string, captchaToken: string): Observable<any> {

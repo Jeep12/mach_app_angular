@@ -12,6 +12,8 @@ import { ModalDeleteUserAdminComponent } from "../modal-delete-user-admin/modal-
 import { ModalDeleteUserComponent } from "../modal-delete-user/modal-delete-user.component";
 import { ModalErrorComponent } from "../modal-error/modal-error.component";
 import { ModalResendEmailRecoveryComponent } from "../modal-resend-email-recovery/modal-resend-email-recovery.component";
+import { AuthService } from '../../services/auth.service';
+import { finalize, Subscription } from 'rxjs';
 declare var bootstrap: any; // Para usar Bootstrap en Angular
 
 @Component({
@@ -22,6 +24,7 @@ declare var bootstrap: any; // Para usar Bootstrap en Angular
   styleUrls: ['./users-specifications.component.css']
 })
 export class UsersSpecificationsComponent implements OnInit {
+
   users: User[] = [];
   filteredUsers: User[] = [];
   pagedUsers: User[] = [];
@@ -64,30 +67,42 @@ export class UsersSpecificationsComponent implements OnInit {
   selectedRole: any = '';
 
   private userFilterSort!: UserFilterSort;
+  private usersSubscription?: Subscription;
 
   constructor(
     private userManagementService: UserManagementService,
-    private modalService: ModalService
+    private modalService: ModalService,
+    private authService: AuthService
   ) { }
 
   ngOnInit(): void {
     this.loadUsers();
 
   }
+  ngOnDestroy(): void {
+    if (this.usersSubscription) {
+      this.usersSubscription.unsubscribe();
+    }
+  }
+
 
   loadUsers(): void {
-    console.log("Recargando usuarios...");
     this.loading = true;
-    this.userManagementService.getUsers().subscribe({
+    // Limpia la suscripción anterior si existe
+    if (this.usersSubscription) {
+      this.usersSubscription.unsubscribe();
+    }
+
+    this.usersSubscription = this.userManagementService.getUsers().pipe(
+      finalize(() => this.loading = false)
+    ).subscribe({
       next: (data: User[]) => {
         this.users = data;
         this.userFilterSort = new UserFilterSort(this.users);
         this.updateUsers();
-        this.loading = false;
       },
       error: (error) => {
         console.error('Error loading users:', error);
-        this.loading = false;
       }
     });
   }
@@ -195,8 +210,15 @@ export class UsersSpecificationsComponent implements OnInit {
 
   toggleUserStatus(user: User): void {
     this.selectUser(user);
-    console.log("clickeo cambiar ")
 
+    if (!this.authService.isAdmin()) {
+      this.modalService.showError({
+        title: 'Error, acción no permitida',
+        message: 'No tienes permisos para cambiar el estado de este usuario.',
+      });
+      return;
+
+    }
     this.userManagementService.toggleUserStatus(user.id).subscribe(response => {
       user.enabled = !user.enabled;
       this.modalAction = user.enabled ? 'habilitado' : 'deshabilitado';
@@ -204,7 +226,7 @@ export class UsersSpecificationsComponent implements OnInit {
         title: 'Usuario actualizado',
         message: `El usuario ${this.selectedUser.name} ${this.selectedUser.lastname}  a sido ${this.modalAction} con exito. `,
       });
- 
+
     });
   }
   cleanInputSearch(): void {
@@ -215,8 +237,15 @@ export class UsersSpecificationsComponent implements OnInit {
 
   deleteUser(user: User): void {
     this.selectUser(user);
+    if (!this.authService.isAdmin()) {
+      this.modalService.showError({
+        title: 'Error, acción no permitida',
+        message: 'No tienes permisos para eliminar este usuario.',
+      });
+      return;
 
-    if (user.roles.some(role => role.name === 'ROLE_ADMIN')) {
+    }
+    if (this.authService.hasAdminRole(user)) {
       this.modalService.showDeleteUserAdmin({
         show: true
       });
@@ -235,7 +264,23 @@ export class UsersSpecificationsComponent implements OnInit {
 
   toggleRoleUser(user: User): void {
     this.selectUser(user);
-    const currentRole = user.roles.some(role => role.name === 'ROLE_ADMIN') ? 'ROLE_ADMIN' : 'ROLE_USER';
+    if (!this.authService.isAdmin()) {
+      this.modalService.showError({
+        title: 'Error, acción no permitida',
+        message: 'No tienes permisos para cambiar el rol de este usuario.',
+      });
+      return;
+
+    }
+    if (this.authService.hasAdminRole(user)) {
+      this.modalService.showError({
+        title: 'Error, acción no permitida',
+        message: 'No se puede cambiar los roles de un administrador.',
+      });
+      return;
+    }
+
+    const currentRole = user.roles.some(role => role.name === 'ROLE_EMPLOYEE') ? 'ROLE_EMPLOYEE' : 'ROLE_USER';
     this.modalService.showChangeRole({
       user: user,
       currentRole: currentRole
@@ -252,7 +297,6 @@ export class UsersSpecificationsComponent implements OnInit {
   }
 
   resendEmailRecovery(user: User): void {
-    console.log("clickeo enviar email")
     this.selectUser(user);
     this.modalService.shoeResendRecoveryEmail({
       user: user,
@@ -261,6 +305,12 @@ export class UsersSpecificationsComponent implements OnInit {
   }
 
 
-
+  resendEmailVerification(User: User) {
+    console.log('Resend email verification', User);
+    this.modalService.showError({
+      title: 'No disponible',
+      message: 'Esta funcionalidad no está disponible en este momento.',
+    });
+  }
 
 }

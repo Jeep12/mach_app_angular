@@ -26,7 +26,7 @@
         <li class="nav-item">
           <a class="nav-link" routerLink="/contact" routerLinkActive="active">Contáctanos</a>
         </li>
- 
+
       </ul>
 
       <!-- Spinner de carga -->
@@ -36,6 +36,12 @@
         </div>
       </div>
 
+
+
+      <div *ngIf="isAuthenticatedUser && !isLoading" class="badge text-bg-secondary container-email-user">
+ 
+        <i class="fa-solid fa-envelope"></i>&nbsp; {{userEmail}}
+      </div>
       <!-- Usuario no autenticado -->
       <div *ngIf="!isAuthenticatedUser && !isLoading" class="d-flex wrapper-button-auth">
         <button class="btn-register" routerLink="/register"><i class="fa-solid fa-user-plus"></i> Registrarse</button>
@@ -51,7 +57,7 @@
             <span><i class="fa-solid fa-user"></i> Mi cuenta</span>
           </button>
           <ul class="dropdown-menu " aria-labelledby="userDropdown">
-            <li *ngIf="isAdmin()">
+            <li *ngIf="isAdmin() || isEmployee()">
               <a class="dropdown-item" routerLink="/admin-dashboard">
                 <i class="fa-solid fa-screwdriver-wrench"></i> Admin Dashboard
               </a>

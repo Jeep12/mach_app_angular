@@ -294,3 +294,7 @@
   background-color: #dcfce7;
   color: #166534;
 }
+.role-employee {
+  background-color: var(--brand-purple);
+  color: white;
+}

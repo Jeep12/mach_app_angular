@@ -17,6 +17,8 @@ import { AboutComponent } from './components/about/about.component';
 import { ContactComponent } from './components/contact/contact.component';
 import { ProfileComponent } from './components/profile/profile.component';
 import { authGuard } from './guards/auth.guard';
+import { EmployeeGuard } from './guards/employee.guard';
+import { AdminOrEmployeeGuard } from './guards/admin-or-employee.guard';
 
 export const routes: Routes = [
   {
@@ -61,13 +63,13 @@ export const routes: Routes = [
   {
     path: 'profile',
     component: ProfileComponent,
-    canActivate:[authGuard]
+    canActivate: [authGuard]
 
   },
   {
     path: 'admin-dashboard',
     component: AdminDashboardComponent,
-    canActivate: [AdminGuard],  // Protección mediante AdminGuard
+    canActivate: [AdminOrEmployeeGuard],  // Protección mediante AdminGuard
     children: [
       {
         path: '',  // Ruta vacía, redirige a 'users-management'
@@ -77,17 +79,17 @@ export const routes: Routes = [
       {
         path: 'users-specifications',
         component: UsersSpecificationsComponent,
-        canActivate: [AdminGuard],  // Protege la ruta de Clients
+        canActivate: [AdminOrEmployeeGuard],  // Protege la ruta de Clients
       },
       {
         path: 'invoices',
         component: InvoicesComponent,
-        canActivate: [AdminGuard],  // Protege la ruta de Invoices
+        canActivate: [AdminOrEmployeeGuard],  // Protege la ruta de Invoices
       },
       {
         path: 'products',
         component: ProductsComponent,
-        canActivate: [AdminGuard],  // Protege la ruta de Products
+        canActivate: [AdminOrEmployeeGuard],  // Protege la ruta de Products
       }
     ]
   },

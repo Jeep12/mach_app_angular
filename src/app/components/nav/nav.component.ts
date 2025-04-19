@@ -17,8 +17,10 @@ export class NavComponent implements OnInit, OnDestroy {
   isAuthenticatedUser: boolean = false;
   isLoading: boolean = false;
   userEmail: string | null = null;
+  userDisplayName: string | null = null;
   private authSub!: Subscription;
   private loadingSub!: Subscription;
+
 
   constructor(
     private authService: AuthService,
@@ -61,6 +63,7 @@ export class NavComponent implements OnInit, OnDestroy {
     if (token) {
       const decoded = this.tokenService.decodeToken(token);
       this.userEmail = decoded?.email || null;
+      this.userDisplayName = decoded?.name || null + ' ' + decoded?.lastname || null;
     }
   }
 
@@ -72,7 +75,9 @@ export class NavComponent implements OnInit, OnDestroy {
   isAdmin(): boolean {
     return this.authService.isAdmin();
   }
-
+  isEmployee(): boolean {
+    return this.authService.isEmployee();
+  }
   logout(): void {
     this.authService.logout();
     this.router.navigate(['/home']);

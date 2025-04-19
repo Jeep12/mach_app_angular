@@ -4,6 +4,8 @@ import { User } from '../../models/user.model';
 import { FormsModule } from '@angular/forms';
 import { UserManagementService } from '../../services/user-management.service';
 import { ModalService } from '../../services/modal.service';
+import { AuthService } from '../../services/auth.service';
+import { Role } from '../../models/role.model';
 
 @Component({
   selector: 'app-modal-change-roles',
@@ -16,70 +18,74 @@ export class ModalChangeRolesComponent implements OnInit {
   show = false;
   user: User | null = null;
   currentRole: string = '';
-
+  isEmployeeChecked = false;
 
   @Output() roleChanged = new EventEmitter<{ user: User | null, newRole: string }>();
 
-
-  constructor(private modalService: ModalService, private userManagementService: UserManagementService) {
+  constructor(private modalService: ModalService, private userManagementService: UserManagementService, private authService: AuthService) {
     this.modalService.toggleRoleSubject$.subscribe(state => {
       this.show = state.show;
       this.user = state.config.user;
-      this.currentRole = state.config.currentRole;
+      this.isEmployeeChecked = this.isEmployee(); // Inicializa si el rol de empleado está seleccionado
     });
   }
-  ngOnInit(): void {
 
-  }
+  ngOnInit(): void { }
 
   close() {
     this.modalService.hide();
   }
 
   saveChanges() {
+    const roles: string[] = [];
 
-    const newRole = this.currentRole;
-    const roleName = newRole === 'ROLE_ADMIN' ? 'Administrador' : 'Usuario'; // Ternario aquí
-    const name = this.user?.name;
-    const lastname = this.user?.lastname;
-    if (!this.currentRole || !this.user) {
+    if (this.isEmployeeChecked) {
+      roles.push('ROLE_EMPLOYEE');
+    }
+
+    if (this.isUser()) {
+      roles.push('ROLE_USER');
+    }
+
+    if (!this.user || roles.length === 0) {
       alert('Datos incompletos para actualizar el rol');
       return;
     }
 
-    const roles = [this.currentRole]; // Asegúrate que sea un array
 
-    this.userManagementService.updateUserRoles(this.user!.id, roles).subscribe({
+    this.userManagementService.updateUserRoles(this.user.id, roles).subscribe({
       next: (response) => {
-        console.log('Roles actualizados:', response);
 
-
-
+      if(response.success) {
         this.modalService.showSuccess({
-          title: 'Rol actualizado exitosamente',
-          message: `El usuario  ${name} ${lastname}  ha sido actualizado con el rol de ${roleName} `,
+          title: 'Exito',
+          message: response.message,
         });
-
-        this.roleChanged.emit({ user: this.user, newRole: this.currentRole });
-        // Eliminamos la línea que usa bootstrap.Modal
+      }    
+   
+        this.roleChanged.emit({ user: this.user, newRole: roles.join(', ') });
       },
       error: (error) => {
-        console.error('Error al actualizar roles:', error.message);
-        // Opcional: Mostrar modal de error (lo implementaremos después)
-        // this.modalService.showError({
-        //   title: 'Error al actualizar rol',
-        //   message: 'No se pudo cambiar el rol del usuario'
-        // });
+        this.modalService.showError({
+          title: 'Error al actualizar roles',
+          message: `${error.error.message}`,
+        });
       }
     });
-
-
-    // Luego cierra el modal
-    this.close();
   }
+
+
   isAdmin() {
-    return this.currentRole === 'ROLE_ADMIN';
+    return this.user?.roles.some(role => role.name === 'ROLE_ADMIN') || false;
   }
 
+  isUser() {
+    return this.user?.roles.some(role => role.name === 'ROLE_USER') || false;
+  }
 
+  isEmployee() {
+    return this.user?.roles.some(role => role.name === 'ROLE_EMPLOYEE') || false;
+  }
 }
+
+

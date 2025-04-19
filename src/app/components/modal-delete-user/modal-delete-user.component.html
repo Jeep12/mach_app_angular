@@ -12,18 +12,21 @@
             <div class="modal-body">
                 <div class="alert alert-danger" role="alert">
                     <div class="d-flex align-items-center">
-                        <i class="fas fa-user-slash fa-2x me-3"></i>
+
                         <div>
-                            <h5 class="alert-heading mb-2">¿Eliminar usuario permanentemente?</h5>
+                            <h5 class="alert-heading mb-2"> <i class="fas fa-user-slash"></i> ¿Eliminar
+                                usuario permanentemente?</h5>
                             <p class="mb-1">Estás a punto de eliminar la cuenta de:</p>
                             <h6 class="mb-0">
                                 <span class="badge bg-dark">{{user?.name}} {{user?.lastname}} </span>
                                 <span class="badge bg-info text-dark ms-2"> {{user?.email}}</span>
-                                <span class="badge ms-2"
-                                    [ngClass]="{'bg-warning text-dark': isAdmin(), 'bg-secondary': !isAdmin()}">
-                                    {{isAdmin() ? 'Administrador' : 'Usuario'}}
-                                </span>
+
                             </h6>
+                            <br>
+                            <p> <strong>Roles:</strong> &nbsp;
+                                <span class="badge  text-bg-warning" *ngIf="isEmployee()">Empleado</span> &nbsp;
+                                <span class="badge  text-bg-info" *ngIf="isUser()">Usuario</span>
+                            </p>
                         </div>
                     </div>
                 </div>
@@ -36,6 +39,12 @@
                         Todos los datos asociados serán eliminados permanentemente.
                     </p>
                 </div>
+
+                <p style="text-align: center;">
+                    <i class="fas fa-check-circle" style="color: green;"></i>&nbsp;
+                    Considere deshabilitar la cuenta en lugar de eliminarla, si desea conservar los datos
+                </p>
+                <hr>
 
                 <div class="form-check mb-3">
                     <input class="form-check-input" type="checkbox" id="confirmDelete"
