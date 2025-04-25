@@ -19,6 +19,7 @@ import { ProfileComponent } from './components/profile/profile.component';
 import { authGuard } from './guards/auth.guard';
 import { EmployeeGuard } from './guards/employee.guard';
 import { AdminOrEmployeeGuard } from './guards/admin-or-employee.guard';
+import { NotFoundComponent } from './components/not-found/not-found.component';
 
 export const routes: Routes = [
   {
@@ -95,7 +96,7 @@ export const routes: Routes = [
   },
   {
     path: '**',
-    redirectTo: ''  // Redirige cualquier ruta desconocida a la ruta raíz
+    component: NotFoundComponent  // Redirige cualquier ruta desconocida a la ruta raíz
   }
 ];
 

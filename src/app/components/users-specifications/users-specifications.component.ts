@@ -208,6 +208,7 @@ export class UsersSpecificationsComponent implements OnInit {
     }
   }
 
+
   toggleUserStatus(user: User): void {
     this.selectUser(user);
 
@@ -217,17 +218,23 @@ export class UsersSpecificationsComponent implements OnInit {
         message: 'No tienes permisos para cambiar el estado de este usuario.',
       });
       return;
-
     }
-    this.userManagementService.toggleUserStatus(user.id).subscribe(response => {
-      user.enabled = !user.enabled;
-      this.modalAction = user.enabled ? 'habilitado' : 'deshabilitado';
-      this.modalService.showSuccess({
-        title: 'Usuario actualizado',
-        message: `El usuario ${this.selectedUser.name} ${this.selectedUser.lastname}  a sido ${this.modalAction} con exito. `,
+    if (this.authService.hasAdminRole(user)) {
+      this.modalService.showError({
+        title: 'Error, acción no permitida',
+        message: 'No se puede cambiar el estado de un administrador.',
       });
+    } else {
+      this.userManagementService.toggleUserStatus(user.id).subscribe(response => {
+        user.enabled = !user.enabled;
+        this.modalAction = user.enabled ? 'habilitado' : 'deshabilitado';
+        this.modalService.showSuccess({
+          title: 'Usuario actualizado',
+          message: `El usuario ${this.selectedUser.name} ${this.selectedUser.lastname}  a sido ${this.modalAction} con exito. `,
+        });
 
-    });
+      });
+    }
   }
   cleanInputSearch(): void {
     this.searchTerm = '';
