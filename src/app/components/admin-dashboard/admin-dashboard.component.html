@@ -22,12 +22,17 @@
               <i class="fa-solid fa-box"></i><span>Administrar Productos</span>
             </a>
             <ul class="dropdown-dashboard" [ngClass]="{'active': dropdownStates.products}">
-              <li><a href=""><i class="fas fa-plus"></i><span>Agregar producto</span></a></li>
+              <li><a href=""><i class="fas fa-edit"></i><span>Ver productos</span></a></li>
+              <li><a  routerLink="/admin-dashboard/addProduct"><i class="fas fa-plus"></i><span>Agregar producto</span></a></li>
               <li><a href=""><i class="fas fa-edit"></i><span>Editar producto</span></a></li>
+              <li><a href=""><i class="fas fa-plus-circle"></i><span>Cargar variacion</span></a></li>
               <li><a href=""><i class="fas fa-trash"></i><span>Elminar producto</span></a></li>
 
             </ul>
           </li>
+
+
+          
 
         </ul>
       </div>

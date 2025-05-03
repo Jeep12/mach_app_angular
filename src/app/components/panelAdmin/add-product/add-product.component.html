@@ -1,0 +1,114 @@
+<div class="container">
+  <h2>Crea un producto</h2>
+
+  <!-- Barra de navegación -->
+  <div class="navigation-bar">
+    <button (click)="activeForm = 'producto'" [class.active]="activeForm === 'producto'">
+      Información básica
+    </button>
+    <button (click)="activeForm = 'variacion'" [class.active]="activeForm === 'variacion'">
+      Variación
+    </button>
+    <button (click)="activeForm = 'caracteristicas'" [class.active]="activeForm === 'caracteristicas'">
+      Características
+    </button>
+    <button (click)="activeForm = 'imagenes'" [class.active]="activeForm === 'imagenes'">
+      Imágenes
+    </button>
+  </div>
+
+  <!-- Formulario activo -->
+  <div class="form-container" *ngIf="activeForm">
+    <ng-container [ngSwitch]="activeForm">
+      <!-- Formulario Información básica -->
+      <div *ngSwitchCase="'producto'">
+        <form class="form-product">
+          <div class="form-row">
+            <!-- Inputs -->
+            <div class="form-column">
+              <div class="form-group">
+                <label><i class="fas fa-tag"></i> Nombre del producto</label>
+                <input type="text" name="name" required minlength="4" maxlength="255">
+              </div>
+              <div class="form-group">
+                <label><i class="fas fa-industry"></i> Marca</label>
+                <input type="text" name="brand" required>
+              </div>
+              <div class="form-group">
+                <label><i class="fas fa-dollar-sign"></i> Precio</label>
+                <input type="number" name="price" required min="0" step="0.01">
+              </div>
+            </div>
+
+            <!-- Imagen -->
+            <div class="image-product">
+              <img src="assets/images/product_default.webp" alt="Imagen por defecto">
+            </div>
+          </div>
+
+          <!-- Campos extra -->
+          <div class="form-group">
+            <label><i class="fas fa-align-left"></i> Descripción</label>
+            <textarea name="description" required></textarea>
+          </div>
+
+          <div class="form-row wrap">
+            <div class="form-group small">
+              <label><i class="fas fa-th-large"></i> Categoría</label>
+              <select name="category">
+                <option disabled selected>Selecciona una categoría</option>
+                <option value="1">Electrónica</option>
+                <option value="2">Hogar</option>
+                <option value="3">Ropa</option>
+              </select>
+            </div>
+
+            <div class="form-group small">
+              <label><i class="fas fa-box-open"></i> Condición del producto</label>
+              <div class="radio-group-condition">
+                <label class="radio-card">
+                  <input type="radio" name="productCondition" value="NEW" checked>
+                  <div class="radio-content">
+                    <i class="fas fa-certificate text-primary"></i>
+                    <span>Nuevo</span>
+                    <small>Producto original sellado</small>
+                  </div>
+                </label>
+
+                <label class="radio-card">
+                  <input type="radio" name="productCondition" value="USED">
+                  <div class="radio-content">
+                    <i class="fas fa-box-open"></i>
+                    <span>Usado</span>
+                    <small>Previamente utilizado</small>
+                  </div>
+                </label>
+
+                <label class="radio-card">
+                  <input type="radio" name="productCondition" value="REFURBISHED">
+                  <div class="radio-content">
+                    <i class="fas fa-tools text-info"></i>
+                    <span>Reacondicionado</span>
+                    <small>Restaurado a condiciones óptimas</small>
+                  </div>
+                </label>
+              </div>
+            </div>
+          </div>
+
+        </form>
+      </div>
+
+      <!-- Otros formularios -->
+      <div *ngSwitchCase="'variacion'">
+        <p>Formulario de variación</p>
+      </div>
+      <div *ngSwitchCase="'caracteristicas'">
+        <p>Formulario de características</p>
+      </div>
+      <div *ngSwitchCase="'imagenes'">
+        <p>Formulario de imágenes</p>
+      </div>
+    </ng-container>
+  </div>
+</div>
